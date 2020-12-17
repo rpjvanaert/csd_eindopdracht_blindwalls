@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "csd_blindwalls_location_aware"
