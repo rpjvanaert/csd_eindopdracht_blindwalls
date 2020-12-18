@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_bar"
 
-        android:background="@color/colorSecondary"
+        android:background="@color/colorPrimary"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
 
             android:text="@string/app_name"
             android:textSize="@dimen/font_header1"
+            android:textColor="@color/colorWhite"
             />
 
 
@@ -57,6 +58,8 @@
             <org.osmdroid.views.MapView
                 android:id="@+id/main_mapview"
 
+
+                android:backgroundTint="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
 
@@ -76,51 +79,119 @@
                 android:textColor="@color/colorPrimary"
                 />
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/murals_button_nav"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_toMurals"
 
-                android:layout_width="@dimen/fab_width_menu"
+                android:layout_width="@dimen/cardviewSizeOption"
                 android:layout_height="wrap_content"
-
-                android:layout_marginHorizontal="@dimen/diff_s2"
                 android:layout_marginVertical="@dimen/diff_s3"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/options_header"
 
-                android:text="@string/go_to_murals"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_header3"
+                android:backgroundTint="@color/colorSecondary"
+                >
 
-                android:backgroundTint="@color/colorPrimaryLight"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-                app:icon="@drawable/ic_launcher_foreground"
-                app:iconSize="38dp"
-                app:iconTint="@color/colorWhite"
-                />
+                    android:padding="@dimen/diff_s2"
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/routes_button_nav"
+                    >
 
-                android:layout_width="@dimen/fab_width_menu"
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/fabButton_toMurals"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:icon="@drawable/ic_img"
+                        app:iconSize="@dimen/fabIconSize"
+                        app:iconTint="@color/colorSecondary"
+                        android:backgroundTint="@color/colorWhite"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/diff_s1"
+                        android:layout_marginHorizontal="@dimen/diff_s2"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/fabButton_toMurals"
+
+                        android:text="@string/go_to_murals"
+                        android:textSize="@dimen/font_header2"
+                        android:textColor="@color/colorWhite"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_toRoutes"
+
+                android:layout_width="@dimen/cardviewSizeOption"
                 android:layout_height="wrap_content"
-
-                android:layout_marginHorizontal="@dimen/diff_s2"
                 android:layout_marginVertical="@dimen/diff_s3"
 
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/murals_button_nav"
+                app:layout_constraintTop_toBottomOf="@id/cardview_toMurals"
 
-                android:text="@string/go_to_routes"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_header3"
+                android:backgroundTint="@color/colorSecondary"
+                >
 
-                android:backgroundTint="@color/colorPrimaryLight"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-                app:icon="@drawable/ic_launcher_foreground"
-                app:iconSize="38dp"
-                app:iconTint="@color/colorWhite"
-                />
+                    android:padding="@dimen/diff_s2"
+
+                    >
+
+                    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                        android:id="@+id/fabButton_toRoutes"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        app:icon="@drawable/ic_route"
+                        app:iconSize="@dimen/fabIconSize"
+                        app:iconTint="@color/colorSecondary"
+                        android:backgroundTint="@color/colorWhite"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/diff_s1"
+                        android:layout_marginHorizontal="@dimen/diff_s2"
+
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/fabButton_toRoutes"
+
+                        android:text="@string/go_to_routes"
+                        android:textSize="@dimen/font_header2"
+                        android:textColor="@color/colorWhite"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

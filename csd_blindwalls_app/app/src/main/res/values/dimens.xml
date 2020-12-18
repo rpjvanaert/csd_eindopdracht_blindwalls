@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="diff_s3">12dp</dimen>
+
     <dimen name="font_header1">32sp</dimen>
     <dimen name="font_header2">24sp</dimen>
+    <dimen name="font_header3">14sp</dimen>
+
+
     <dimen name="diff_s1">6dp</dimen>
     <dimen name="diff_s2">10dp</dimen>
-    <dimen name="font_header3">14sp</dimen>
-    <dimen name="fab_width_menu">230dp</dimen>
+    <dimen name="diff_s3">12dp</dimen>
+
+    <dimen name="cardviewSizeOption">250dp</dimen>
+    <dimen name="fabIconSize">28dp</dimen>
 </resources>
