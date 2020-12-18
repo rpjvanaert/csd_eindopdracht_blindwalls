@@ -12,14 +12,14 @@ import logo.philist.csd_blindwalls_location_aware.Models.BlindwallsRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.Route;
 
-public class RoutesViewModel extends AndroidViewModel {
+public class MuralsViewModel extends AndroidViewModel {
 
     private BlindwallsRepository repos;
 
     private LiveData<List<Mural>> murals;
     private LiveData<List<Route>> routes;
 
-    public RoutesViewModel(@NonNull Application application) {
+    public MuralsViewModel(@NonNull Application application) {
         super(application);
 
         repos = BlindwallsRepository.getInstance();
