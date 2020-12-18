@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Client Side Development</string>
+    <string name="visiting_options_header">visiting_options_header</string>
+    <string name="go_to_murals">go_to_murals</string>
+    <string name="go_to_routes">go_to_routes</string>
+</resources>
