@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@color/colorPrimary">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_mural"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/diff_s2"
+        android:layout_marginTop="@dimen/diff_s2"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:background="@color/colorWhite"
+        >
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mTextview_muralsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diff_s2"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="Route title PLCDHLDR"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_header1"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mTextview_muralsTimeAndType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diff_s2"
+
+            app:layout_constraintTop_toBottomOf="@id/mTextview_muralsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mTextview_muralsDistance"
+
+            android:text="time With Transport"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_header3"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mTextview_muralsDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diff_s2"
+
+            app:layout_constraintTop_toBottomOf="@id/mTextview_muralsTitle"
+            app:layout_constraintStart_toEndOf="@id/mTextview_muralsTimeAndType"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="distance in km"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_header3"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/diff_s2"
+        android:layout_marginBottom="@dimen/diff_s2"
+
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout_mural"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:background="@color/colorWhite"
+
+        tools:listitem="@layout/item_mural"
+        />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_nav"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/diff_s3"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:backgroundTint="@color/colorSecondary"
+        app:icon="@drawable/ic_nav"
+        app:iconTint="@color/colorWhite"
+        app:iconSize="@dimen/font_header1"
+
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
