@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:layout_marginHorizontal="@dimen/diff_s1"
-    android:layout_marginTop="@dimen/diff_s1"
+    android:layout_marginHorizontal="@dimen/diff_s2"
+    android:layout_marginTop="@dimen/diff_s2"
 
     android:id="@+id/cardview_itemMural"
     android:background="@color/colorWhite"
@@ -45,6 +45,7 @@
 
             android:text="MURAL PLCHLDR"
             android:textSize="@dimen/font_header2"
+            android:textColor="@color/colorPrimary"
             />
 
         <com.google.android.material.textview.MaterialTextView
