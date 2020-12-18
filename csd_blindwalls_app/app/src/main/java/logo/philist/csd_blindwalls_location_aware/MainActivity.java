@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

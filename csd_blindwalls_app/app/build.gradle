@@ -38,4 +38,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'org.osmdroid:osmdroid-android:6.1.8'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
 }

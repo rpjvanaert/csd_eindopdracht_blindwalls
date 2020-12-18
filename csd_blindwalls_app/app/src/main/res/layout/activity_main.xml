@@ -79,7 +79,7 @@
                 android:textColor="@color/colorPrimary"
                 />
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardview_toMurals"
 
                 android:layout_width="@dimen/cardviewSizeOption"
@@ -134,9 +134,9 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardview_toRoutes"
 
                 android:layout_width="@dimen/cardviewSizeOption"
@@ -191,7 +191,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

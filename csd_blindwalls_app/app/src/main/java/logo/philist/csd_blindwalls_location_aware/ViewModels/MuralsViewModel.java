@@ -10,14 +10,12 @@ import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.BlindwallsRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.Mural;
-import logo.philist.csd_blindwalls_location_aware.Models.Route;
 
 public class MuralsViewModel extends AndroidViewModel {
 
     private BlindwallsRepository repos;
 
     private LiveData<List<Mural>> murals;
-    private LiveData<List<Route>> routes;
 
     public MuralsViewModel(@NonNull Application application) {
         super(application);
@@ -26,16 +24,9 @@ public class MuralsViewModel extends AndroidViewModel {
 
         repos.requestMurals();
         murals = repos.getMurals();
-
-        repos.requestRoutes();
-        routes = repos.getRoutes();
     }
 
     public LiveData<List<Mural>> getMurals() {
         return murals;
-    }
-
-    public LiveData<List<Route>> getRoutes() {
-        return routes;
     }
 }
