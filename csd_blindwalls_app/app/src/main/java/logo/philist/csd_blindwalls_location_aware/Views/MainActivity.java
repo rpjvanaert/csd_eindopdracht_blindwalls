@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware;
+package logo.philist.csd_blindwalls_location_aware.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import org.osmdroid.util.GeoPoint;
 
 import java.util.Locale;
+
+import logo.philist.csd_blindwalls_location_aware.R;
 
 public class MainActivity extends AppCompatActivity {
 
