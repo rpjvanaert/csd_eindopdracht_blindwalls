@@ -18,7 +18,7 @@
         >
 
         <ImageView
-            android:id="@+id/imageview_previewMural"
+            android:id="@+id/imageView_previewMural"
 
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -40,7 +40,7 @@
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/mTextview_addressMural"
-            app:layout_constraintStart_toEndOf="@id/imageview_previewMural"
+            app:layout_constraintStart_toEndOf="@id/imageView_previewMural"
             app:layout_constraintEnd_toEndOf="parent"
 
             android:text="MURAL PLCHLDR"
@@ -57,7 +57,7 @@
 
             app:layout_constraintTop_toBottomOf="@id/mTextview_nameMural"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageview_previewMural"
+            app:layout_constraintStart_toEndOf="@id/imageView_previewMural"
             app:layout_constraintEnd_toEndOf="parent"
 
             android:text="ADDRESS PLCHLDR"
