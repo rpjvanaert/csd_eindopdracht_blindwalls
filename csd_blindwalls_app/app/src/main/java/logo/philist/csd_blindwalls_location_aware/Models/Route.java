@@ -1,9 +1,10 @@
 package logo.philist.csd_blindwalls_location_aware.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Route {
+public class Route  implements Serializable {
 
     private String name;
 

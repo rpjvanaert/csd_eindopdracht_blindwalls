@@ -2,10 +2,11 @@ package logo.philist.csd_blindwalls_location_aware.Models;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Mural {
+public class Mural implements Serializable {
 
     private final int id;
 
