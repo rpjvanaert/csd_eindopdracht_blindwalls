@@ -36,8 +36,8 @@ public class MuralDetailActivity extends Activity {
 
         mural = (Mural) getIntent().getSerializableExtra(TAG);
 
-        mTextViewName = findViewById(R.id.mTextview_nameMural);
-        mTextViewAddress = findViewById(R.id.mTextview_addressMural);
+        mTextViewName = findViewById(R.id.mTextview_muralTitle);
+        mTextViewAddress = findViewById(R.id.mTextview_muralsAddress);
         mTextViewDate = findViewById(R.id.mTextview_muralsDate);
         mTextViewDescription = findViewById(R.id.mTextview_description);
         mTextViewCategory = findViewById(R.id.mTextview_category);

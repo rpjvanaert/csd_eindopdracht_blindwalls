@@ -1,10 +1,10 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,7 +20,7 @@ import logo.philist.csd_blindwalls_location_aware.ViewModels.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralListAdapter;
 
 
-public class MuralsListActivity extends Activity implements OnItemClickListener {
+public class MuralsListActivity extends AppCompatActivity implements OnItemClickListener {
 
     private LiveData<List<Mural>> murals;
 
@@ -32,7 +32,7 @@ public class MuralsListActivity extends Activity implements OnItemClickListener 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_main);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        MuralsViewModel muralsViewModel = new ViewModelProvider((ViewModelStoreOwner) MuralsListActivity.this).get(MuralsViewModel.class);
+        MuralsViewModel muralsViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(MuralsViewModel.class);
 
         murals = muralsViewModel.getMurals();
         MuralListAdapter muralListAdapter = new MuralListAdapter(this, this);
