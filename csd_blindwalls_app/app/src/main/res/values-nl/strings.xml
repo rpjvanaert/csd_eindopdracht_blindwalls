@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Client Side Development</string>
-    <string name="visiting_options_header">visiting_options_header</string>
-    <string name="go_to_murals">go_to_murals</string>
-    <string name="go_to_routes">go_to_routes</string>
+    <string name="visiting_options_header">Bezoekmogelijkheden</string>
+    <string name="go_to_murals">Ga naar muurschilderingen</string>
+    <string name="go_to_routes">Ga naar routes</string>
+    <string name="category">"Categorie: "</string>
+    <string name="material">"Materiaal: "</string>
 </resources>

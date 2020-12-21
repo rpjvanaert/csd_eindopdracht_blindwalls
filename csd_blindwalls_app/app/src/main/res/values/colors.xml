@@ -7,4 +7,5 @@
     <color name="colorSecondaryLight">#02C39A</color>
 
     <color name="colorWhite">#F0F3ED</color>
+    <color name="colorOffWhite">#dee1e8</color>
 </resources>
