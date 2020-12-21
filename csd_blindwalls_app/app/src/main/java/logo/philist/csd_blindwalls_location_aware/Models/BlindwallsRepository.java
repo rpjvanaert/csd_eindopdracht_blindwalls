@@ -25,6 +25,8 @@ public class BlindwallsRepository {
     private final MutableLiveData<List<Mural>> murals;
     private final MutableLiveData<List<Route>> routes;
     private final OkHttpClient httpClient;
+    private boolean requestedMurals;
+    private boolean requestedRoutes;
 
     private static BlindwallsRepository instance;
     private static final String headerAccessToken = "X-Access-Token";
@@ -36,6 +38,8 @@ public class BlindwallsRepository {
     private BlindwallsRepository(){
         this.murals = new MutableLiveData<>();
         this.routes = new MutableLiveData<>();
+        this.requestedMurals = false;
+        this.requestedRoutes = false;
 
         this.httpClient = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -60,21 +64,24 @@ public class BlindwallsRepository {
     }
 
     public void requestMurals(){
-        httpClient.newCall(getRequest(muralUrl)).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    murals.setValue(readMurals(response));
-                } catch (JSONException e) {
+        if(!requestedMurals){
+            httpClient.newCall(getRequest(muralUrl)).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        murals.setValue(readMurals(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            requestedMurals = true;
+        }
     }
 
     private List<Mural> readMurals(Response response) throws JSONException, IOException {
@@ -127,21 +134,24 @@ public class BlindwallsRepository {
     }
 
     public void requestRoutes(){
-        httpClient.newCall(getRequest(routeUrl)).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    routes.setValue(readRoutes(response));
-                } catch (JSONException e) {
+        if(!requestedRoutes){
+            httpClient.newCall(getRequest(routeUrl)).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        routes.setValue(readRoutes(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            requestedRoutes = true;
+        }
     }
 
     private List<Route> readRoutes(Response response) throws IOException, JSONException {

@@ -47,4 +47,19 @@ public class Route  implements Serializable {
     public List<Integer> getMuralsId() {
         return muralsId;
     }
+
+    public List<Mural> getMurals(List<Mural> murals){
+        List<Mural> routeMurals = new ArrayList<>();
+
+        for (int id : this.muralsId){
+            for (Mural eachMural : murals){
+                if (eachMural.getId() == id){
+                    routeMurals.add(eachMural);
+                    break;
+                }
+            }
+        }
+
+        return routeMurals;
+    }
 }
