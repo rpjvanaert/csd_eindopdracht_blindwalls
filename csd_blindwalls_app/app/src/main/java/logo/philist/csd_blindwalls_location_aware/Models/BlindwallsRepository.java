@@ -1,5 +1,7 @@
 package logo.philist.csd_blindwalls_location_aware.Models;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -19,6 +23,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class BlindwallsRepository {
 
@@ -28,10 +34,13 @@ public class BlindwallsRepository {
     private boolean requestedMurals;
     private boolean requestedRoutes;
 
+    private ExecutorService executorService;
+
     private static BlindwallsRepository instance;
     private static final String headerAccessToken = "X-Access-Token";
     private static final String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJibGluZHdhbGwiLCJleHAiOjE2MDgxMjMxMzA2MzB9.R5bpThiuXb4M9u8cG5KmARv6M_BTWL4xtAzRFGXkSTM";
-    private static final String blindwallsUrl = "api.blindwalls.gallery";
+    private static final String blindwallsUrl = "https://api.blindwalls.gallery";
+    private static final String apiHead = "/apiv2";
     private static final String muralUrl = "/murals";
     private static final String routeUrl = "/routes";
 
@@ -46,6 +55,8 @@ public class BlindwallsRepository {
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build();
+
+        this.executorService = Executors.newSingleThreadExecutor();
     }
 
     public static synchronized BlindwallsRepository getInstance(){
@@ -72,12 +83,14 @@ public class BlindwallsRepository {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    try {
-                        murals.setValue(readMurals(response));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                public void onResponse(Call call, Response response) {
+                    executorService.submit(()->{
+                        try{
+                            murals.postValue(readMurals(response));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
                 }
             });
             requestedMurals = true;
@@ -96,7 +109,7 @@ public class BlindwallsRepository {
             GeoPoint geoPoint = new GeoPoint(muralJson.getDouble("latitude"), muralJson.getDouble("longitude"));
             String address = muralJson.getString("address");
             String author = muralJson.getString("author");
-            double rating = muralJson.getDouble("rating");
+            double rating = 5.0;
 
             Mural mural = new Mural(id, geoPoint, address, date, author, rating);
 
@@ -124,7 +137,7 @@ public class BlindwallsRepository {
             List<String> imageList = new ArrayList<>();
             for (int j = 0; j < images.length(); j++) {
                 JSONObject imageObject = images.getJSONObject(j);
-                imageList.add(blindwallsUrl + "/" + imageObject.getString("url"));
+                imageList.add(blindwallsUrl + "/" + imageObject.getString("url").toLowerCase());
             }
             mural.setImages(imageList);
 
@@ -142,12 +155,14 @@ public class BlindwallsRepository {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    try {
-                        routes.setValue(readRoutes(response));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                public void onResponse(Call call, Response response) {
+                    executorService.submit(()->{
+                        try {
+                            routes.postValue(readRoutes(response));
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
                 }
             });
             requestedRoutes = true;
@@ -171,7 +186,7 @@ public class BlindwallsRepository {
             JSONArray points = routeObject.getJSONArray("points");
             for (int j = 0; j < points.length(); j++) {
                 JSONObject point = points.getJSONObject(j);
-                route.setMuralId(point.getInt("order"), point.getInt("muralId"));
+                route.setMuralId(j, point.getInt("muralId"));
             }
 
             routes.add(route);
@@ -182,9 +197,12 @@ public class BlindwallsRepository {
 
     public Request getRequest(String typeUrl){
         Request request = new Request.Builder()
-                .url(blindwallsUrl + typeUrl)
+                .url(blindwallsUrl + apiHead + typeUrl)
                 .header(headerAccessToken, accessToken)
                 .build();
+        Log.i(BlindwallsRepository.class.getName(), request.toString()
+
+        );
         return request;
     }
 
