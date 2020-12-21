@@ -28,8 +28,6 @@ public class MuralDetailActivity extends Activity {
     private MaterialTextView mTextViewAuthor;
 
     private RecyclerView recyclerViewMuralImages;
-    private MuralImageListAdapter imageAdapter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
