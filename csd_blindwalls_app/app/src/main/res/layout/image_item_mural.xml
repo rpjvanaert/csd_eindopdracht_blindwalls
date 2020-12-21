@@ -16,6 +16,8 @@
 
         app:layout_constraintTop_toTopOf="parent"
 
+        android:scaleType="centerCrop"
+
         android:background="@color/colorPrimaryLight"
         />
 

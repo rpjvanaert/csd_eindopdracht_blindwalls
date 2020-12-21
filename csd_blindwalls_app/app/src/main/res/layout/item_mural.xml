@@ -28,6 +28,8 @@
 
             app:layout_constraintStart_toStartOf="parent"
 
+            android:scaleType="centerCrop"
+
             android:background="@color/colorPrimary"
             />
 
@@ -46,6 +48,9 @@
             android:text="MURAL PLCHLDR"
             android:textSize="@dimen/font_header2"
             android:textColor="@color/colorPrimary"
+
+            android:maxLines="1"
+            android:ellipsize="end"
             />
 
         <com.google.android.material.textview.MaterialTextView
