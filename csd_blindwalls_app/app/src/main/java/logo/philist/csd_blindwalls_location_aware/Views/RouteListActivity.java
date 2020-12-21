@@ -1,14 +1,14 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +22,7 @@ import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.RoutesViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteListAdapter;
 
-public class RouteListActivity extends Activity implements OnItemClickListener {
+public class RouteListActivity extends AppCompatActivity implements OnItemClickListener {
 
     private LiveData<List<Route>> routes;
     private LiveData<List<Mural>> murals;
@@ -47,6 +47,7 @@ public class RouteListActivity extends Activity implements OnItemClickListener {
 
     @Override
     public void onItemClick(int clickedPosition) {
+        Log.i(RouteListActivity.class.getName(), "click");
         Intent detailIntent = new Intent(this, RouteDetailActivity.class);
         detailIntent.putExtra(RouteDetailActivity.TAG_ROUTE, routes.getValue().get(clickedPosition));
         detailIntent.putExtra(RouteDetailActivity.TAG_MURALS, (Serializable) routes.getValue().get(clickedPosition).getMurals(murals.getValue()));

@@ -1,10 +1,10 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +19,7 @@ import logo.philist.csd_blindwalls_location_aware.Models.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralListAdapter;
 
-public class RouteDetailActivity extends Activity implements OnItemClickListener{
+public class RouteDetailActivity extends AppCompatActivity implements OnItemClickListener{
 
     public static final String TAG = RouteDetailActivity.class.getName();
     public static final String TAG_ROUTE = TAG + "_ROUTE";
@@ -55,7 +55,7 @@ public class RouteDetailActivity extends Activity implements OnItemClickListener
         recyclerViewMurals.setLayoutManager(new LinearLayoutManager(this));
         MuralListAdapter muralListAdapter = new MuralListAdapter(this, this);
         recyclerViewMurals.setAdapter(muralListAdapter);
-        murals.observe((LifecycleOwner)this, muralListAdapter);
+        murals.observe((LifecycleOwner) RouteDetailActivity.this, muralListAdapter);
 
     }
 

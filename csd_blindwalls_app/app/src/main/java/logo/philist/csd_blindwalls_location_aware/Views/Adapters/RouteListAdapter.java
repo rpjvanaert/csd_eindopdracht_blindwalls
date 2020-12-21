@@ -1,6 +1,6 @@
 package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
-import logo.philist.csd_blindwalls_location_aware.Models.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.Views.OnItemClickListener;
+
+import static android.content.ContentValues.TAG;
 
 public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.ViewHolder> implements Observer<List<Route>> {
 
@@ -70,6 +70,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             mTextViewName = itemView.findViewById(R.id.mTextview_routeName);
             mTextViewDistance = itemView.findViewById(R.id.mTextview_distance);
@@ -78,6 +79,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.View
 
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "onClick: " + getAdapterPosition());
             int clickedPosition = getAdapterPosition();
             clickListener.onItemClick(clickedPosition);
         }
