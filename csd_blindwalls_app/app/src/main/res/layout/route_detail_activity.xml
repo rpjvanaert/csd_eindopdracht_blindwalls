@@ -23,7 +23,7 @@
         >
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mTextview_muralsTitle"
+            android:id="@+id/mTextview_routeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/diff_s2"
@@ -38,14 +38,14 @@
             />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mTextview_muralsTimeAndType"
+            android:id="@+id/mTextview_timeAndType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/diff_s2"
 
-            app:layout_constraintTop_toBottomOf="@id/mTextview_muralsTitle"
+            app:layout_constraintTop_toBottomOf="@id/mTextview_routeTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/mTextview_muralsDistance"
+            app:layout_constraintEnd_toStartOf="@id/mTextview_distance"
 
             android:text="time With Transport"
             android:textColor="@color/colorPrimary"
@@ -53,13 +53,13 @@
             />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/mTextview_muralsDistance"
+            android:id="@+id/mTextview_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/diff_s2"
 
-            app:layout_constraintTop_toBottomOf="@id/mTextview_muralsTitle"
-            app:layout_constraintStart_toEndOf="@id/mTextview_muralsTimeAndType"
+            app:layout_constraintTop_toBottomOf="@id/mTextview_routeTitle"
+            app:layout_constraintStart_toEndOf="@id/mTextview_timeAndType"
             app:layout_constraintEnd_toEndOf="parent"
 
             android:text="distance in km"
@@ -70,6 +70,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_routeMurals"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/diff_s2"

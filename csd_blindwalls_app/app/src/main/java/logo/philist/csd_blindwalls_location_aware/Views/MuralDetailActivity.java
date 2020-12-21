@@ -28,6 +28,7 @@ public class MuralDetailActivity extends Activity {
     private MaterialTextView mTextViewAuthor;
 
     private RecyclerView recyclerViewMuralImages;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +51,8 @@ public class MuralDetailActivity extends Activity {
         mTextViewAddress.setText(mural.getAddress());
         mTextViewDate.setText(mural.getDate().toString());
         mTextViewDescription.setText(mural.getDescription(lang));
-        mTextViewCategory.setText(mural.getCategory(lang));
-        mTextViewMaterial.setText(mural.getMaterial(lang));
+        mTextViewCategory.setText(String.format("%s%s", getResources().getString(R.string.category), mural.getCategory(lang)));
+        mTextViewMaterial.setText(String.format("%s%s", getResources().getString(R.string.material), mural.getMaterial(lang)));
         mTextViewAuthor.setText(mural.getAuthor());
 
         recyclerViewMuralImages.setLayoutManager(new LinearLayoutManager(this));
