@@ -1,6 +1,8 @@
 package logo.philist.csd_blindwalls_location_aware.Models;
 
+import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -31,6 +33,9 @@ public class BlindwallsRepository {
     private final MutableLiveData<List<Mural>> murals;
     private final MutableLiveData<List<Route>> routes;
     private final OkHttpClient httpClient;
+
+    private final Application application;
+
     private boolean requestedMurals;
     private boolean requestedRoutes;
 
@@ -44,24 +49,26 @@ public class BlindwallsRepository {
     private static final String muralUrl = "/murals";
     private static final String routeUrl = "/routes";
 
-    private BlindwallsRepository(){
+    private BlindwallsRepository(Application application){
         this.murals = new MutableLiveData<>();
         this.routes = new MutableLiveData<>();
         this.requestedMurals = false;
         this.requestedRoutes = false;
 
+        this.application = application;
+
         this.httpClient = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(2, TimeUnit.SECONDS)
+                .writeTimeout(2, TimeUnit.SECONDS)
+                .readTimeout(2, TimeUnit.SECONDS)
                 .build();
 
         this.executorService = Executors.newSingleThreadExecutor();
     }
 
-    public static synchronized BlindwallsRepository getInstance(){
+    public static synchronized BlindwallsRepository getInstance(Application application){
         if(instance == null){
-            instance = new BlindwallsRepository();
+            instance = new BlindwallsRepository(application);
         }
         return instance;
     }

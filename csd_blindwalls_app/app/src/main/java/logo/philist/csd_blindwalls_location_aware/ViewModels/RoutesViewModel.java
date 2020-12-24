@@ -22,7 +22,7 @@ public class RoutesViewModel extends AndroidViewModel {
     public RoutesViewModel(@NonNull Application application) {
         super(application);
 
-        repos = BlindwallsRepository.getInstance();
+        repos = BlindwallsRepository.getInstance(application);
 
         repos.requestMurals();
         murals = repos.getMurals();

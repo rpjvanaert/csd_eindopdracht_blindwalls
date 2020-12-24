@@ -20,7 +20,7 @@ public class MuralsViewModel extends AndroidViewModel {
     public MuralsViewModel(@NonNull Application application) {
         super(application);
 
-        repos = BlindwallsRepository.getInstance();
+        repos = BlindwallsRepository.getInstance(application);
 
         repos.requestMurals();
         murals = repos.getMurals();
