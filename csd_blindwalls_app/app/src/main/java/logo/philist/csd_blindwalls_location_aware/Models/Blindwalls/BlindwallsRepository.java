@@ -1,10 +1,8 @@
-package logo.philist.csd_blindwalls_location_aware.Models;
+package logo.philist.csd_blindwalls_location_aware.Models.Blindwalls;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -25,8 +23,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class BlindwallsRepository {
 

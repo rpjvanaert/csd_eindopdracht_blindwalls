@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
-import logo.philist.csd_blindwalls_location_aware.Models.Route;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.Views.OnItemClickListener;
 

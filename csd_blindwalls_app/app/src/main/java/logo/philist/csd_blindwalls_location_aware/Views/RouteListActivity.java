@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.Serializable;
 import java.util.List;
 
-import logo.philist.csd_blindwalls_location_aware.Models.Mural;
-import logo.philist.csd_blindwalls_location_aware.Models.Route;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
-import logo.philist.csd_blindwalls_location_aware.ViewModels.RoutesViewModel;
+import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.RoutesViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteListAdapter;
 
 public class RouteListActivity extends AppCompatActivity implements OnItemClickListener {

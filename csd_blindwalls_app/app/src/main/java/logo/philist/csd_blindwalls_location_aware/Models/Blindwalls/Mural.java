@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Models;
+package logo.philist.csd_blindwalls_location_aware.Models.Blindwalls;
 
 import org.osmdroid.util.GeoPoint;
 
