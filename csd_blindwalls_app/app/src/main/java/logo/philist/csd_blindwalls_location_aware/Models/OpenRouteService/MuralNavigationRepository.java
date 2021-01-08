@@ -22,8 +22,6 @@ public class MuralNavigationRepository {
 
     private final OkHttpClient httpClient;
 
-    private final Application application;
-
     private ExecutorService executorService;
 
     private NavigationListener navigationListener;
@@ -36,9 +34,7 @@ public class MuralNavigationRepository {
     public static final String PROFILE_CYCLING = "/cycling-regular";
     public static final String apiKey = "5b3ce3597851110001cf6248345a40d8741343389fc17da4f5ad70e0";
 
-    private MuralNavigationRepository(Application application){
-        this.application = application;
-
+    protected MuralNavigationRepository(){
         this.httpClient = new OkHttpClient.Builder()
                 .connectTimeout(2, TimeUnit.SECONDS)
                 .writeTimeout(2, TimeUnit.SECONDS)
@@ -48,11 +44,19 @@ public class MuralNavigationRepository {
         this.executorService = Executors.newSingleThreadExecutor();
     }
 
-    public static synchronized MuralNavigationRepository getInstance(Application application){
+    public static synchronized MuralNavigationRepository getInstance(){
         if (instance == null){
-            instance = new MuralNavigationRepository(application);
+            instance = new MuralNavigationRepository();
         }
         return instance;
+    }
+
+    protected OkHttpClient getHttpClient(){
+        return this.httpClient;
+    }
+
+    protected ExecutorService getExecutorService(){
+        return this.executorService;
     }
 
     public void requestNavigation(String profile, GeoPoint start, GeoPoint end, NavigationListener navigationListener){
@@ -140,7 +144,7 @@ public class MuralNavigationRepository {
         return geometry;
     }
 
-    private static Navigation getNavigation(JSONObject responseObject){
+    protected static Navigation getNavigation(JSONObject responseObject){
         Navigation nav = new Navigation();
 
         try {
@@ -191,7 +195,7 @@ public class MuralNavigationRepository {
         return nav;
     }
 
-    private Request getRequest(String profile, GeoPoint start, GeoPoint end) {
+    private static Request getRequest(String profile, GeoPoint start, GeoPoint end) {
         Request request = new Request.Builder()
                 .url(url + s + profile)
                 .header("api_key", apiKey)
