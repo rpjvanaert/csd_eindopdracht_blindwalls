@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">csd_blindwalls_location_aware</string>
+    <string name="app_name" translatable="false">BWallsRoute</string>
+    <string name="visiting_options_header">Visiting options:</string>
+    <string name="go_to_murals">Go to murals.</string>
+    <string name="go_to_routes">Go to routes.</string>
+    <string name="lorem" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="category">"Category: "</string>
+    <string name="material">"Material: "</string>
 </resources>

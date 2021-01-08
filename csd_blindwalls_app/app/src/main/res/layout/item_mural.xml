@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_marginHorizontal="@dimen/diff_s2"
+    android:layout_marginTop="@dimen/diff_s2"
+
+    android:id="@+id/cardview_itemMural"
+    android:background="@color/colorWhite"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+
+        >
+
+        <ImageView
+            android:id="@+id/imageView_previewMural"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="4:3"
+            android:layout_marginVertical="@dimen/diff_s2"
+            android:layout_marginHorizontal="@dimen/diff_s3"
+
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:scaleType="centerCrop"
+
+            android:background="@color/colorPrimary"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mTextview_nameMural"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/diff_s2"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mTextview_addressMural"
+            app:layout_constraintStart_toEndOf="@id/imageView_previewMural"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="MURAL PLCHLDR"
+            android:textSize="@dimen/font_header2"
+            android:textColor="@color/colorPrimary"
+
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/mTextview_addressMural"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/diff_s2"
+
+            app:layout_constraintTop_toBottomOf="@id/mTextview_nameMural"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView_previewMural"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="ADDRESS PLCHLDR"
+            android:textSize="@dimen/font_header3"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

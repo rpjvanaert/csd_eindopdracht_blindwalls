@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="visiting_options_header">Visiting Options</string>
+    <string name="go_to_murals">Go to Murals.</string>
+    <string name="go_to_routes">Go to routes.</string>
+    <string name="category">"Category: "</string>
+    <string name="material">"Material: "</string>
+</resources>
