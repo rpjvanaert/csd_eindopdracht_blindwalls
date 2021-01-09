@@ -21,15 +21,16 @@ public class GpsManager implements LocationListener {
 
     private final GpsListener listener;
     private final LocationManager locationManager;
-    private GeoPoint lastKnownLocation;
+    private Location lastKnownLocation;
 
-    public GpsManager(Activity activity, GpsListener listener, GeoPoint lastKnownLocation) {
+    public GpsManager(Activity activity, GpsListener listener) {
         this.lastKnownLocation = lastKnownLocation;
         if (activity == null) {
             throw new IllegalArgumentException("Context is not allowed to be null");
         }
 
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+
 
         this.listener = listener;
 
@@ -51,7 +52,7 @@ public class GpsManager implements LocationListener {
         }
     }
 
-    public GeoPoint getLastKnownLocation() {
+    public Location getLastKnownLocation() {
         return this.lastKnownLocation;
     }
 
@@ -65,8 +66,8 @@ public class GpsManager implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        this.lastKnownLocation = new GeoPoint(location);
-        this.listener.onLocationUpdate(this.lastKnownLocation);
+        this.lastKnownLocation = location;
+        this.listener.onLocationUpdate(location);
     }
 
     @Override

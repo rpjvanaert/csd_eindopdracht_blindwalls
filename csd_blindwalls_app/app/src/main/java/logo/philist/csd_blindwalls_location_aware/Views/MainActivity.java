@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -85,12 +86,11 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         mapController.animateTo(standardLocation);
 
-        //get data
         markerMap = new HashMap<>();
 
+        this.gpsManager = new GpsManager(this, this);
 
-        this.gpsManager = new GpsManager(this, this, standardLocation);
-
+//        this.myLocation = new MyLocationNewOverlay(mapView);
 
         //Init fab buttons of murals and routes
         ExtendedFloatingActionButton fabMurals = findViewById(R.id.fabButton_toMurals);
@@ -171,10 +171,15 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     }
 
     @Override
-    public void onLocationUpdate(GeoPoint location) {
+    public void onLocationUpdate(Location location) {
         Marker selfMarker = new Marker(mapView, this);
-        selfMarker.setPosition(location);
+        selfMarker.setPosition(new GeoPoint(location));
+        selfMarker.setRotation(location.getBearing());
+        Log.d(GpsManager.class.getName(), "Bearing:= " + location.hasBearing() + location.getBearing());
         selfMarker.setIcon(getDrawable(R.drawable.ic_nav));
+
+
+
 
         mapView.getOverlays().remove(currentLocationMarker);
         currentLocationMarker = selfMarker;
