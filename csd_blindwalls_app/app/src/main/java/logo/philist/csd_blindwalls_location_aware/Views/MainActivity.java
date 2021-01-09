@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     private MuralsViewModel muralsViewModel;
     private List<Mural> murals;
 
+    private ExtendedFloatingActionButton fabMenu;
+    private ExtendedFloatingActionButton fabMurals;
+    private ExtendedFloatingActionButton fabRoutes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,21 +96,81 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
 //        this.myLocation = new MyLocationNewOverlay(mapView);
 
-        //Init fab buttons of murals and routes
-        ExtendedFloatingActionButton fabMurals = findViewById(R.id.fabButton_toMurals);
-        ExtendedFloatingActionButton fabRoutes = findViewById(R.id.fabButton_toRoutes);
+        fabMenu = findViewById(R.id.fab_extendMenu);
+        fabMurals = findViewById(R.id.fab_go_to_murals);
+        fabRoutes = findViewById(R.id.fab_go_to_routes);
 
-        fabMurals.setOnClickListener((view -> {
-            Log.i(MainActivity.class.getName(), "clicked fab Murals");
-            Intent intent = new Intent(this, MuralsListActivity.class);
-            startActivity(intent);
-        }));
+        fabMenu.shrink();
+        fabMurals.shrink();
+        fabRoutes.shrink();
+
+        fabMenu.setOnClickListener(view -> {
+            if (fabMenu.isExtended()){
+                closeFabMenu();
+            } else {
+                openFabMenu();
+            }
+        });
+
+        fabMurals.setOnClickListener(view -> {
+            if (fabMurals.isExtended()){
+                Intent intent = new Intent(this, MuralsListActivity.class);
+                startActivity(intent);
+                closeFabMenu();
+            } else {
+                fabMurals.extend();
+            }
+        });
 
         fabRoutes.setOnClickListener(view -> {
-            Log.i(MainActivity.class.getName(), "clicked fab Routes");
-            Intent intent = new Intent(this, RouteListActivity.class);
-            startActivity(intent);
+            if (fabRoutes.isExtended()){
+                Intent intent = new Intent(this, RouteListActivity.class);
+                startActivity(intent);
+                closeFabMenu();
+            } else {
+                fabRoutes.extend();
+            }
         });
+
+
+//        //Init fab buttons of murals and routes
+//        ExtendedFloatingActionButton fabMurals = findViewById(R.id.fabButton_toMurals);
+//        ExtendedFloatingActionButton fabRoutes = findViewById(R.id.fabButton_toRoutes);
+//
+//        fabMurals.setOnClickListener((view -> {
+//            Log.i(MainActivity.class.getName(), "clicked fab Murals");
+//            Intent intent = new Intent(this, MuralsListActivity.class);
+//            startActivity(intent);
+//        }));
+//
+//        fabRoutes.setOnClickListener(view -> {
+//            Log.i(MainActivity.class.getName(), "clicked fab Routes");
+//            Intent intent = new Intent(this, RouteListActivity.class);
+//            startActivity(intent);
+//        });
+    }
+
+    private void openFabMenu() {
+        fabRoutes.animate().translationY(-getResources().getDimension(R.dimen.standard_route_offset));
+        fabMurals.animate().translationY(-getResources().getDimension(R.dimen.standard_murals_offset)).withEndAction(() -> {
+            fabMenu.extend();
+            fabRoutes.extend();
+            fabMurals.extend();
+        });
+    }
+
+    private void closeFabMenu() {
+        fabMenu.shrink();
+        fabRoutes.shrink();
+        fabMurals.shrink(new ExtendedFloatingActionButton.OnChangedCallback() {
+            @Override
+            public void onShrunken(ExtendedFloatingActionButton extendedFab) {
+                super.onShrunken(extendedFab);
+                fabRoutes.animate().translationY(0);
+                fabMurals.animate().translationY(0);
+            }
+        });
+
     }
 
 
