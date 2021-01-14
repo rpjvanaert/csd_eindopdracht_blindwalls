@@ -154,26 +154,26 @@
                 tools:listitem="@layout/image_item_mural"
                 />
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fab_nav"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/diff_s3"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                android:backgroundTint="@color/colorSecondary"
-                app:icon="@drawable/ic_nav"
-                app:iconTint="@color/colorWhite"
-                app:iconSize="@dimen/font_header1"
-
-
-                />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_nav"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/diff_s3"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:backgroundTint="@color/colorSecondary"
+        app:icon="@drawable/ic_nav"
+        app:iconTint="@color/colorWhite"
+        app:iconSize="@dimen/font_header1"
+
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.ViewModels;
+package logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls;
 
 import android.app.Application;
 
@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import logo.philist.csd_blindwalls_location_aware.Models.BlindwallsRepository;
-import logo.philist.csd_blindwalls_location_aware.Models.Mural;
-import logo.philist.csd_blindwalls_location_aware.Models.Route;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.BlindwallsRepository;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 
 public class RoutesViewModel extends AndroidViewModel {
 

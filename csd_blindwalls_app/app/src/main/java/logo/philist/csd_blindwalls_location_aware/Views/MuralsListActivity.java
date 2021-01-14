@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import logo.philist.csd_blindwalls_location_aware.Models.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.R;
-import logo.philist.csd_blindwalls_location_aware.ViewModels.MuralsViewModel;
+import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralListAdapter;
 
 
