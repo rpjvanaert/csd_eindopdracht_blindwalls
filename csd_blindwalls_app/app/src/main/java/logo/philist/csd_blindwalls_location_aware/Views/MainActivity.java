@@ -9,6 +9,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     private static final double standardZoom = 18.0;
 
     private Map<Integer, Marker> markerMap;
-    private Polyline routePolyLine;
     private MapView mapView;
     private IMapController mapController;
     private Marker currentLocationMarker;
@@ -57,6 +60,53 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     private ExtendedFloatingActionButton fabMenu;
     private ExtendedFloatingActionButton fabMurals;
     private ExtendedFloatingActionButton fabRoutes;
+
+    private float[] mGravity;
+    private float[] mGeomagnetic;
+
+    private final SensorEventListener mSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            int sensorType = sensorEvent.sensor.getType();
+            if (sensorType == Sensor.TYPE_ACCELEROMETER) {
+                mGravity = sensorEvent.values;
+            } else if (sensorType == Sensor.TYPE_MAGNETIC_FIELD) {
+                mGeomagnetic = sensorEvent.values;
+            }
+
+            if (mGravity != null && mGeomagnetic != null) {
+                float[] rotationR = new float[9];
+                float[] rotationI = new float[9];
+
+                // Calculate rotation matrix stuff, I'm not a math wizard so no idea what's going on
+                if (SensorManager.getRotationMatrix(rotationR, rotationI, mGravity, mGeomagnetic)) {
+                    float[] orientation = new float[3];
+
+                    // More calculations, luckily made by the Android team, them wizards..
+                    SensorManager.getOrientation(rotationR, orientation);
+
+                    // Whatever this is
+                    float azimut = orientation[0];
+                    // This is supposed to get me a rotation out in degrees - somewhat like a compass. 0 is north, etc..
+                    float rotation = -azimut * 360 / (2 * 3.14159f);
+
+                    rotation = (float)Math.round(rotation * 5f) / 5f;
+
+                    Log.i(MainActivity.class.getName(), "onSensorChanged: " + rotation);
+
+                    if (currentLocationMarker != null){
+                        currentLocationMarker.setRotation(rotation);
+                        mapView.invalidate();
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
 
 
     @Override
@@ -75,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         this.mapView = findViewById(R.id.main_mapview);
         this.mapController = mapView.getController();
         this.mapController.setZoom(standardZoom);
+        this.mapView.setBuiltInZoomControls(false);
 
         //check gps permission
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -93,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         markerMap = new HashMap<>();
 
         this.gpsManager = new GpsManager(this, this);
+
+//        this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+//        this.sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ALL), SensorManager.SENSOR_DELAY_GAME);
+
+        SensorManager sensorManager = getSystemService(SensorManager.class);
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.registerListener(mSensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(mSensorEventListener, magneticFieldSensor, SensorManager.SENSOR_DELAY_UI);
 
 //        this.myLocation = new MyLocationNewOverlay(mapView);
 
@@ -178,20 +238,20 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     public void onChanged(List<Mural> murals) {
         this.murals = murals;
 
-        if (routePolyLine != null){
-            mapView.getOverlayManager().remove(routePolyLine);
-        }
-        this.routePolyLine = new Polyline();
+//        if (routePolyLine != null){
+//            mapView.getOverlayManager().remove(routePolyLine);
+//        }
+//        this.routePolyLine = new Polyline();
+//
+//        routePolyLine.addPoint(murals.get(0).getGeoPoint());
+//        routePolyLine.addPoint(murals.get(1).getGeoPoint());
+//        routePolyLine.addPoint(murals.get(2).getGeoPoint());
+//
+//        Paint outlinePaint = routePolyLine.getOutlinePaint();
+//        outlinePaint.setColor(getColor(R.color.colorSecondaryLight));
+//        outlinePaint.setStrokeWidth(3f);
 
-        routePolyLine.addPoint(murals.get(0).getGeoPoint());
-        routePolyLine.addPoint(murals.get(1).getGeoPoint());
-        routePolyLine.addPoint(murals.get(2).getGeoPoint());
-
-        Paint outlinePaint = routePolyLine.getOutlinePaint();
-        outlinePaint.setColor(getColor(R.color.colorSecondaryLight));
-        outlinePaint.setStrokeWidth(3f);
-
-        mapView.getOverlayManager().add(routePolyLine);
+//        mapView.getOverlayManager().add(routePolyLine);
 
         for (Mural mural : this.murals) {
             getOrSetMarker(mural);
@@ -230,7 +290,6 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     @Override
     protected void onStop() {
         super.onStop();
-
         this.gpsManager.destroy();
     }
 
@@ -238,12 +297,11 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     public void onLocationUpdate(Location location) {
         Marker selfMarker = new Marker(mapView, this);
         selfMarker.setPosition(new GeoPoint(location));
-        selfMarker.setRotation(location.getBearing());
-        Log.d(GpsManager.class.getName(), "Bearing:= " + location.hasBearing() + location.getBearing());
+//        selfMarker.setRotation(location.getBearing());
+//        Log.d(GpsManager.class.getName(), "Bearing:= " + location.hasBearing() + location.getBearing());
         selfMarker.setIcon(getDrawable(R.drawable.ic_nav));
-
-
-
+        selfMarker.setOnMarkerClickListener(null);
+        selfMarker.setInfoWindow(null);
 
         mapView.getOverlays().remove(currentLocationMarker);
         currentLocationMarker = selfMarker;
