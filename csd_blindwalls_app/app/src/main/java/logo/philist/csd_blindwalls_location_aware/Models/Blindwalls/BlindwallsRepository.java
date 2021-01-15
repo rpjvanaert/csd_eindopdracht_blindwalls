@@ -108,7 +108,7 @@ public class BlindwallsRepository {
             JSONObject muralJson = jsonResponse.getJSONObject(i);
 
             int id = muralJson.getInt("id");
-            Date date = new Date(muralJson.getLong("date"));
+            Date date = new Date(muralJson.getLong("date") * 1000L);
             GeoPoint geoPoint = new GeoPoint(muralJson.getDouble("latitude"), muralJson.getDouble("longitude"));
             String address = muralJson.getString("address");
             String author = muralJson.getString("author");
