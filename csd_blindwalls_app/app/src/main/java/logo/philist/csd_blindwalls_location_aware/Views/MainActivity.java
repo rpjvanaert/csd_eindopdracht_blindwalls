@@ -36,9 +36,10 @@ import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsVi
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.DirectionListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RotationListener;
 
-public class MainActivity extends AppCompatActivity implements Observer<List<Mural>>, LocalisationListener {
+public class MainActivity extends AppCompatActivity implements LocalisationListener {
 
     public static final String TAG_VIEWMODEL_STORE_OWNER = MainActivity.class.getName() + "_VIEWMODEL_STORE_OWNER";
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
     private Localisation localisation;
 
-    private List<Mural> murals;
+    private MuralMarker muralMarker;
 
     private ExtendedFloatingActionButton fabMenu;
     private ExtendedFloatingActionButton fabMurals;
@@ -66,15 +67,16 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
         //Get muralsviewmodel for the main map
         MuralsViewModel muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
-        this.murals = new ArrayList<>();
-        muralsViewModel.getMurals().observe(this, this);
 
-
-        //Init mapview and controller
+        //Init mapview, controller and muralMarker
         this.mapView = findViewById(R.id.main_mapview);
+
+        this.muralMarker = new MuralMarker(this, mapView);
+        muralsViewModel.getMurals().observe(this, muralMarker);
+
         this.mapController = mapView.getController();
         this.mapController.setZoom(standardZoom);
-        // TODO remove zoomcontroller on bottom of mapView
+
 
         //check gps permission
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -85,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
                     Manifest.permission.ACCESS_COARSE_LOCATION}, 44);
         }
 
-        //mapview settings
+        //mapView settings
         this.mapView.setMultiTouchControls(true);
-        this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
+        this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mapController.animateTo(standardLocation);
 
         markerMap = new HashMap<>();
@@ -96,13 +98,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         currentLocationMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_nav, null));
         currentLocationMarker.setInfoWindow(null);
         mapView.getOverlays().add(currentLocationMarker);
-
-//        this.gpsManager = new GpsManager(this, this);
-//        DirectionListener directionListener = new DirectionListener(this, this);
-
-        this.localisation = new Localisation(this, (LocalisationListener) this);
-
-//        this.myLocation = new MyLocationNewOverlay(mapView);
+        localisation = new Localisation(this, (LocalisationListener) this);
 
         fabMenu = findViewById(R.id.fab_extendMenu);
         fabMurals = findViewById(R.id.fab_go_to_murals);
@@ -164,59 +160,6 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
     }
 
-
-    @Override
-    public void onChanged(List<Mural> murals) {
-        this.murals = murals;
-
-//        if (routePolyLine != null){
-//            mapView.getOverlayManager().remove(routePolyLine);
-//        }
-//        this.routePolyLine = new Polyline();
-//
-//        routePolyLine.addPoint(murals.get(0).getGeoPoint());
-//        routePolyLine.addPoint(murals.get(1).getGeoPoint());
-//        routePolyLine.addPoint(murals.get(2).getGeoPoint());
-//
-//        Paint outlinePaint = routePolyLine.getOutlinePaint();
-//        outlinePaint.setColor(getColor(R.color.colorSecondaryLight));
-//        outlinePaint.setStrokeWidth(3f);
-
-//        mapView.getOverlayManager().add(routePolyLine);
-
-        for (Mural mural : this.murals) {
-            getOrSetMarker(mural);
-        }
-    }
-
-    private Marker getOrSetMarker(Mural mural) {
-        if (!markerMap.containsKey(mural.getId())){
-            markerMap.put(mural.getId(), createMarker(mural));
-            mapView.getOverlayManager().add(markerMap.get(mural.getId()));
-        }
-
-        return markerMap.get(mural.getId());
-    }
-
-    private Marker createMarker(Mural mural) {
-        Marker marker = new Marker(mapView, this);
-        marker.setAlpha(1f);
-        marker.setPosition(mural.getGeoPoint());
-        marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_location_on_24, null));
-        marker.setInfoWindow(null);
-        marker.setOnMarkerClickListener((markerC, viewC) ->{
-            openMural(mural);
-            return true;
-        });
-
-        return marker;
-    }
-
-    private void openMural(Mural mural) {
-        Intent detailIntent = new Intent(this, MuralDetailActivity.class);
-        detailIntent.putExtra(MuralDetailActivity.TAG, mural);
-        startActivity(detailIntent);
-    }
 
     @Override
     protected void onStop() {
