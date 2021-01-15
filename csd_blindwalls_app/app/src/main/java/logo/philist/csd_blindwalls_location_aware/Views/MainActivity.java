@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
         //mapview settings
         this.mapView.setMultiTouchControls(true);
-        this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
+        this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mapController.animateTo(standardLocation);
 
         markerMap = new HashMap<>();
