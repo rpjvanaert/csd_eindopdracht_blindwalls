@@ -108,7 +108,7 @@ public class BlindwallsRepository {
             JSONObject muralJson = jsonResponse.getJSONObject(i);
 
             int id = muralJson.getInt("id");
-            Date date = new Date(muralJson.getLong("date"));
+            Date date = new Date(muralJson.getLong("date") * 1000L);
             GeoPoint geoPoint = new GeoPoint(muralJson.getDouble("latitude"), muralJson.getDouble("longitude"));
             String address = muralJson.getString("address");
             String author = muralJson.getString("author");
@@ -191,10 +191,8 @@ public class BlindwallsRepository {
                 JSONObject point = points.getJSONObject(j);
                 route.setMuralId(j, point.getInt("muralId"));
             }
-
             routes.add(route);
         }
-
         return routes;
     }
 
@@ -204,7 +202,6 @@ public class BlindwallsRepository {
                 .header(headerAccessToken, accessToken)
                 .build();
         Log.i(BlindwallsRepository.class.getName(), request.toString()
-
         );
         return request;
     }
