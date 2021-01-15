@@ -1,10 +1,8 @@
-package logo.philist.csd_blindwalls_location_aware.Models;
+package logo.philist.csd_blindwalls_location_aware.Models.Blindwalls;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -25,8 +23,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class BlindwallsRepository {
 
@@ -112,7 +108,7 @@ public class BlindwallsRepository {
             JSONObject muralJson = jsonResponse.getJSONObject(i);
 
             int id = muralJson.getInt("id");
-            Date date = new Date(muralJson.getLong("date"));
+            Date date = new Date(muralJson.getLong("date") * 1000L);
             GeoPoint geoPoint = new GeoPoint(muralJson.getDouble("latitude"), muralJson.getDouble("longitude"));
             String address = muralJson.getString("address");
             String author = muralJson.getString("author");
@@ -195,10 +191,8 @@ public class BlindwallsRepository {
                 JSONObject point = points.getJSONObject(j);
                 route.setMuralId(j, point.getInt("muralId"));
             }
-
             routes.add(route);
         }
-
         return routes;
     }
 
@@ -208,7 +202,6 @@ public class BlindwallsRepository {
                 .header(headerAccessToken, accessToken)
                 .build();
         Log.i(BlindwallsRepository.class.getName(), request.toString()
-
         );
         return request;
     }

@@ -13,4 +13,6 @@
 
     <dimen name="cardviewSizeOption">250dp</dimen>
     <dimen name="fabIconSize">28dp</dimen>
+    <dimen name="standard_route_offset">60dp</dimen>
+    <dimen name="standard_murals_offset">125dp</dimen>
 </resources>
