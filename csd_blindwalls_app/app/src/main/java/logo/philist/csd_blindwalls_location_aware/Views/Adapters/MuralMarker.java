@@ -2,14 +2,10 @@ package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
@@ -77,6 +73,7 @@ public class MuralMarker implements Observer<List<Mural>> {
         for(Mural eachMural : this.murals){
             setMarker(eachMural);
         }
+        this.mapView.invalidate();
     }
 
     @Override

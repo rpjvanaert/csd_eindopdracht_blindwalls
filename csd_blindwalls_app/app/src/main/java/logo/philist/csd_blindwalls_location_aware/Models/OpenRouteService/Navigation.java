@@ -8,14 +8,12 @@ import java.util.List;
 public class Navigation {
 
     private NavigationSummary summary;
-//    private List<GeoPoint> coordinates;
 
     private List<NavigationSegment> segments;
 
     private List<GeoPoint> geometry;
 
     public Navigation(NavigationSummary summary) {
-//        this.coordinates = new ArrayList<>();
         this.geometry = new ArrayList<>();
         this.segments = new ArrayList<>();
 
@@ -33,14 +31,6 @@ public class Navigation {
     public void setSummary(NavigationSummary summary) {
         this.summary = summary;
     }
-
-//    public List<GeoPoint> getCoordinates() {
-//        return coordinates;
-//    }
-
-//    public void addCoordinates(GeoPoint geoPoint){
-//        coordinates.add(geoPoint);
-//    }
 
     public List<NavigationSegment> getSegments() {
         return segments;
