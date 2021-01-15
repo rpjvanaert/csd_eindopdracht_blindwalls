@@ -1,22 +1,17 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Paint;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -26,7 +21,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,13 +28,17 @@ import java.util.List;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.BuildConfig;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsListener;
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsManager;
-import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.DirectionListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RotationListener;
 
-public class MainActivity extends AppCompatActivity implements Observer<List<Mural>>, GpsListener {
+public class MainActivity extends AppCompatActivity implements Observer<List<Mural>>, LocalisationListener {
 
     public static final String TAG_VIEWMODEL_STORE_OWNER = MainActivity.class.getName() + "_VIEWMODEL_STORE_OWNER";
 
@@ -52,62 +50,13 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     private IMapController mapController;
     private Marker currentLocationMarker;
 
-    private GpsManager gpsManager;
+    private Localisation localisation;
 
-    private MuralsViewModel muralsViewModel;
     private List<Mural> murals;
 
     private ExtendedFloatingActionButton fabMenu;
     private ExtendedFloatingActionButton fabMurals;
     private ExtendedFloatingActionButton fabRoutes;
-
-    private float[] mGravity;
-    private float[] mGeomagnetic;
-
-    private final SensorEventListener mSensorEventListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            int sensorType = sensorEvent.sensor.getType();
-            if (sensorType == Sensor.TYPE_ACCELEROMETER) {
-                mGravity = sensorEvent.values;
-            } else if (sensorType == Sensor.TYPE_MAGNETIC_FIELD) {
-                mGeomagnetic = sensorEvent.values;
-            }
-
-            if (mGravity != null && mGeomagnetic != null) {
-                float[] rotationR = new float[9];
-                float[] rotationI = new float[9];
-
-                // Calculate rotation matrix stuff, I'm not a math wizard so no idea what's going on
-                if (SensorManager.getRotationMatrix(rotationR, rotationI, mGravity, mGeomagnetic)) {
-                    float[] orientation = new float[3];
-
-                    // More calculations, luckily made by the Android team, them wizards..
-                    SensorManager.getOrientation(rotationR, orientation);
-
-                    // Whatever this is
-                    float azimut = orientation[0];
-                    // This is supposed to get me a rotation out in degrees - somewhat like a compass. 0 is north, etc..
-                    float rotation = -azimut * 360 / (2 * 3.14159f);
-
-                    rotation = (float)Math.round(rotation * 5f) / 5f;
-
-                    Log.i(MainActivity.class.getName(), "onSensorChanged: " + rotation);
-
-                    if (currentLocationMarker != null){
-                        currentLocationMarker.setRotation(rotation);
-                        mapView.invalidate();
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         setContentView(R.layout.activity_main);
 
         //Get muralsviewmodel for the main map
-        this.muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
+        MuralsViewModel muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
         this.murals = new ArrayList<>();
         muralsViewModel.getMurals().observe(this, this);
 
@@ -125,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         this.mapView = findViewById(R.id.main_mapview);
         this.mapController = mapView.getController();
         this.mapController.setZoom(standardZoom);
-        this.mapView.setBuiltInZoomControls(false);
+        // TODO remove zoomcontroller on bottom of mapView
 
         //check gps permission
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -143,16 +92,15 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
 
         markerMap = new HashMap<>();
 
-        this.gpsManager = new GpsManager(this, this);
+        currentLocationMarker = new Marker(mapView, this);
+        currentLocationMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_nav, null));
+        currentLocationMarker.setInfoWindow(null);
+        mapView.getOverlays().add(currentLocationMarker);
 
-//        this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-//        this.sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ALL), SensorManager.SENSOR_DELAY_GAME);
+//        this.gpsManager = new GpsManager(this, this);
+//        DirectionListener directionListener = new DirectionListener(this, this);
 
-        SensorManager sensorManager = getSystemService(SensorManager.class);
-        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Sensor magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        sensorManager.registerListener(mSensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
-        sensorManager.registerListener(mSensorEventListener, magneticFieldSensor, SensorManager.SENSOR_DELAY_UI);
+        this.localisation = new Localisation(this, (LocalisationListener) this);
 
 //        this.myLocation = new MyLocationNewOverlay(mapView);
 
@@ -191,23 +139,6 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
                 fabRoutes.extend();
             }
         });
-
-
-//        //Init fab buttons of murals and routes
-//        ExtendedFloatingActionButton fabMurals = findViewById(R.id.fabButton_toMurals);
-//        ExtendedFloatingActionButton fabRoutes = findViewById(R.id.fabButton_toRoutes);
-//
-//        fabMurals.setOnClickListener((view -> {
-//            Log.i(MainActivity.class.getName(), "clicked fab Murals");
-//            Intent intent = new Intent(this, MuralsListActivity.class);
-//            startActivity(intent);
-//        }));
-//
-//        fabRoutes.setOnClickListener(view -> {
-//            Log.i(MainActivity.class.getName(), "clicked fab Routes");
-//            Intent intent = new Intent(this, RouteListActivity.class);
-//            startActivity(intent);
-//        });
     }
 
     private void openFabMenu() {
@@ -271,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         Marker marker = new Marker(mapView, this);
         marker.setAlpha(1f);
         marker.setPosition(mural.getGeoPoint());
-        marker.setIcon(getDrawable(R.drawable.ic_baseline_location_on_24));
+        marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_location_on_24, null));
         marker.setInfoWindow(null);
         marker.setOnMarkerClickListener((markerC, viewC) ->{
             openMural(mural);
@@ -290,23 +221,12 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
     @Override
     protected void onStop() {
         super.onStop();
-        this.gpsManager.destroy();
+        this.localisation.destroy();
     }
 
     @Override
     public void onLocationUpdate(Location location) {
-        Marker selfMarker = new Marker(mapView, this);
-        selfMarker.setPosition(new GeoPoint(location));
-//        selfMarker.setRotation(location.getBearing());
-//        Log.d(GpsManager.class.getName(), "Bearing:= " + location.hasBearing() + location.getBearing());
-        selfMarker.setIcon(getDrawable(R.drawable.ic_nav));
-        selfMarker.setOnMarkerClickListener(null);
-        selfMarker.setInfoWindow(null);
-
-        mapView.getOverlays().remove(currentLocationMarker);
-        currentLocationMarker = selfMarker;
-        mapView.getOverlays().add(currentLocationMarker);
-
+        currentLocationMarker.setPosition(new GeoPoint(location));
 
         //TODO Opt: center on current location
 //        mapController.setCenter(currentLocationMarker.getPosition());
@@ -320,5 +240,11 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Mur
         } else {
             Toast.makeText(this, "GPS signal was lost!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void setRotation(float rotation) {
+        currentLocationMarker.setRotation(rotation);
+        mapView.invalidate();
     }
 }
