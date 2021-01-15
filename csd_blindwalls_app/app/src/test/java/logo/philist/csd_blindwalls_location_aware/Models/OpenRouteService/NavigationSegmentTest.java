@@ -17,6 +17,8 @@ public class NavigationSegmentTest {
 
     @Test
     public void addStep() {
+        navigationSegment.addStep(navigationStep);
+        assertEquals(navigationStep, navigationSegment.getSteps().get(0));
 
     }
 
@@ -29,6 +31,6 @@ public class NavigationSegmentTest {
     @Test
     public void getSteps() {
         navigationSegment.addStep(navigationStep);
-        assertEquals(navigationStep, navigationSegment.getSteps());
+        assertEquals(navigationStep, navigationSegment.getSteps().get(0));
     }
 }

@@ -22,22 +22,23 @@ public class NavigationTest {
     @Test
     public void getSegments() {
         navigation.addSegment(navigationSegment);
-        assertEquals(navigationSegment, navigation.getSegments());
+        assertEquals(navigationSegment, navigation.getSegments().get(0));
     }
 
     @Test
     public void addSegment() {
         navigation.addSegment(navigationSegment);
-        assertEquals(navigationSegment, navigation.getSegments());
+        assertEquals(navigationSegment, navigation.getSegments().get(0));
     }
 
     @Test
     public void getGeometry() {
-       // navigation.addGeometry(geopoint);
-       // assertEquals(geopoint, navigation.getGeometry());
+       //navigation.addGeometry(geopoint);
+       //assertEquals(geopoint, navigation.getGeometry());
     }
 
     @Test
     public void addGeometry() {
+        //werkt bij mij niet met GeoPoints geen idee waarom
     }
 }
