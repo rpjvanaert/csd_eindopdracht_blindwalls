@@ -1,50 +1,54 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
 import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import logo.philist.csd_blindwalls_location_aware.BuildConfig;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
-import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsListener;
-import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsManager;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.RouteNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.DirectionListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RotationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteMarker;
 
-public class MainActivity extends AppCompatActivity implements LocalisationListener {
+import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardLocation;
+import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardZoom;
 
-    public static final String TAG_VIEWMODEL_STORE_OWNER = MainActivity.class.getName() + "_VIEWMODEL_STORE_OWNER";
+public class MuralNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener {
 
-    public static final GeoPoint standardLocation = new GeoPoint(51.588016, 4.775422);
-    public static final double standardZoom = 18.0;
+    public static final String TAG = MuralNavigationActivity.class.getName();
+    public static final String TAG_MURAL = TAG + "_MURAL";
+
+    private Mural mural;
 
     private Map<Integer, Marker> markerMap;
     private MapView mapView;
@@ -54,29 +58,45 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
     private Localisation localisation;
 
     private MuralMarker muralMarker;
-
-    private ExtendedFloatingActionButton fabMenu;
-    private ExtendedFloatingActionButton fabMurals;
-    private ExtendedFloatingActionButton fabRoutes;
+    private RouteMarker routeMarker;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.navigation_layout);
+    }
+
+    @Override
+    protected void onStart() {
+        init();
+        super.onStart();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
+    }
+
+    private void init(){
+        Intent intent = getIntent();
+        mural = (Mural)intent.getSerializableExtra(TAG_MURAL);
+
+        TextView textViewHeader = findViewById(R.id.textView_navigationHeader);
+        String headText = getString(R.string.going_to_mural_to) + mural.getAddress();
+        textViewHeader.setText(headText);
 
         //Get muralsviewmodel for the main map
         MuralsViewModel muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
 
         //Init mapview, controller and muralMarker
-        this.mapView = findViewById(R.id.main_mapview);
+        this.mapView = findViewById(R.id.nav_mapView);
 
         this.muralMarker = new MuralMarker(this, mapView);
         muralsViewModel.getMurals().observe(this, muralMarker);
 
         this.mapController = mapView.getController();
         this.mapController.setZoom(standardZoom);
-
 
         //check gps permission
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -100,64 +120,17 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
         mapView.getOverlays().add(currentLocationMarker);
         localisation = new Localisation(this, (LocalisationListener) this);
 
-        fabMenu = findViewById(R.id.fab_extendMenu);
-        fabMurals = findViewById(R.id.fab_go_to_murals);
-        fabRoutes = findViewById(R.id.fab_go_to_routes);
+        //          Routemarker section
 
-        fabMenu.shrink();
-        fabMurals.shrink();
-        fabRoutes.shrink();
+        MuralNavigationRepository repos = MuralNavigationRepository.getInstance();
+        Log.i(TAG, "requesting navigation");
+        repos.requestNavigation(
+                MuralNavigationRepository.PROFILE_WALKING,
+                new GeoPoint(localisation.getLocation()), mural.getGeoPoint(),
+                this
+        );
 
-        fabMenu.setOnClickListener(view -> {
-            if (fabMenu.isExtended()){
-                closeFabMenu();
-            } else {
-                openFabMenu();
-            }
-        });
-
-        fabMurals.setOnClickListener(view -> {
-            if (fabMurals.isExtended()){
-                Intent intent = new Intent(this, MuralsListActivity.class);
-                startActivity(intent);
-                closeFabMenu();
-            } else {
-                fabMurals.extend();
-            }
-        });
-
-        fabRoutes.setOnClickListener(view -> {
-            if (fabRoutes.isExtended()){
-                Intent intent = new Intent(this, RouteListActivity.class);
-                startActivity(intent);
-                closeFabMenu();
-            } else {
-                fabRoutes.extend();
-            }
-        });
-    }
-
-    private void openFabMenu() {
-        fabRoutes.animate().translationY(-getResources().getDimension(R.dimen.standard_route_offset));
-        fabMurals.animate().translationY(-getResources().getDimension(R.dimen.standard_murals_offset)).withEndAction(() -> {
-            fabMenu.extend();
-            fabRoutes.extend();
-            fabMurals.extend();
-        });
-    }
-
-    private void closeFabMenu() {
-        fabMenu.shrink();
-        fabRoutes.shrink();
-        fabMurals.shrink(new ExtendedFloatingActionButton.OnChangedCallback() {
-            @Override
-            public void onShrunken(ExtendedFloatingActionButton extendedFab) {
-                super.onShrunken(extendedFab);
-                fabRoutes.animate().translationY(0);
-                fabMurals.animate().translationY(0);
-            }
-        });
-
+        this.routeMarker = new RouteMarker(this, mapView);
     }
 
     @Override
@@ -170,9 +143,8 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
     public void onLocationUpdate(Location location) {
         currentLocationMarker.setPosition(new GeoPoint(location));
 
-        //TODO Opt: center on current location
-//        mapController.setCenter(currentLocationMarker.getPosition());
-//        mapView.invalidate();
+        mapController.setCenter(currentLocationMarker.getPosition());
+        mapView.invalidate();
     }
 
     @Override
@@ -188,5 +160,10 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
     public void setRotation(float rotation) {
         currentLocationMarker.setRotation(rotation);
         mapView.invalidate();
+    }
+
+    @Override
+    public void updateNavigation(Navigation navigation) {
+        routeMarker.setNavigation(navigation);
     }
 }

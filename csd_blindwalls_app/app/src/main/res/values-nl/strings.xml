@@ -5,4 +5,6 @@
     <string name="go_to_routes">Ga naar routes</string>
     <string name="category">"Categorie: "</string>
     <string name="material">"Materiaal: "</string>
+    <string name="going_to_mural_to">"Ga naar muurschildering bij "</string>
+    <string name="following">"Volgend "</string>
 </resources>

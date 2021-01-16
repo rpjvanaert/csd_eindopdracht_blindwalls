@@ -14,8 +14,8 @@ public class RouteMarker {
 
     private Navigation navigation;
     private Polyline polyline;
-    private MapView mapView;
-    private Activity activity;
+    private final MapView mapView;
+    private final Activity activity;
 
     public RouteMarker(Activity activity, Navigation navigation, MapView mapView) {
         this.activity = activity;
