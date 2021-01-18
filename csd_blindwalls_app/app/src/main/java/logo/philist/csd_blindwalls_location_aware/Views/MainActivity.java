@@ -27,9 +27,9 @@ import java.util.Map;
 import logo.philist.csd_blindwalls_location_aware.BuildConfig;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
-import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.LocalisationListener;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.MuralMarker;
 
 public class MainActivity extends AppCompatActivity implements LocalisationListener {
 

@@ -34,10 +34,10 @@ import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.N
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
-import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.LocalisationListener;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.MuralMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.RouteMarker;
 
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardLocation;
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardZoom;

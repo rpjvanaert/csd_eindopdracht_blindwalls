@@ -1,12 +1,10 @@
-package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
+package logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication;
 
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
-import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.RotationListener;
 
 public class DirectionListener implements SensorEventListener {
 
