@@ -26,6 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MuralNavigationRepository {
 
@@ -46,10 +47,10 @@ public class MuralNavigationRepository {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     protected MuralNavigationRepository(){
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         this.httpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.SECONDS)
-                .readTimeout(2, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
                 .build();
 
         this.executorService = Executors.newSingleThreadExecutor();
@@ -76,18 +77,17 @@ public class MuralNavigationRepository {
                 .enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                Log.e(MuralNavigationRepository.class.getName(), e.getMessage());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 executorService.submit(() -> {
                     try {
-                        Log.d(MuralNavigationRepository.class.getName(), response.body().string());
+                        Log.e(MuralNavigationRepository.class.getName(), response.body().string());
+                        Log.e(MuralNavigationRepository.class.getName(), "Calling getNavigation");
                         navigationListener.updateNavigation(getNavigation(new JSONObject(response.body().string())));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 });
@@ -205,6 +205,7 @@ public class MuralNavigationRepository {
             e.printStackTrace();
         }
 
+        int x = 1 + 1;
         return nav;
     }
 
@@ -223,7 +224,6 @@ public class MuralNavigationRepository {
         HttpUrl httpUrl = null;
         try {
             httpUrl = HttpUrl.get(new URL(url + s + profile)).newBuilder()
-                    .addQueryParameter("api_key", apiKey)
                     .build();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -233,9 +233,18 @@ public class MuralNavigationRepository {
 
         Request request = new Request.Builder()
                 .url(httpUrl)
-                .put(body)
+                .header("Authorization", apiKey)
+                .header("Accept", "*/*")
+                .header("Content-Type", "application/json")
+                .post(body)
                 .build();
+
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .put(body)
+//                .build();
         System.out.println("------" + httpUrl.toString());
+
         return request;
     }
 
@@ -252,6 +261,7 @@ public class MuralNavigationRepository {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("JSON TEST BODY", object.toString());
         return object.toString();
     }
 }

@@ -2,6 +2,7 @@ package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
 import android.app.Activity;
 import android.graphics.Paint;
+import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -42,13 +43,14 @@ public class RouteMarker {
 
         Paint outlinePaint = this.polyline.getOutlinePaint();
         outlinePaint.setColor(this.activity.getColor(R.color.colorSecondaryLight));
-        outlinePaint.setStrokeWidth(3f);
+        outlinePaint.setStrokeWidth(10f);
 
         this.mapView.getOverlayManager().add(this.polyline);
         this.mapView.invalidate();
     }
 
     public void setNavigation(Navigation navigation) {
+        Log.e(RouteMarker.class.getName(), "Setting navigation");
         this.navigation = navigation;
         this.drawRoute();
     }
