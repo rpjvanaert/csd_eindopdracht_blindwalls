@@ -1,6 +1,5 @@
 package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
-import android.app.Application;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,8 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSegment;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationStep;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSummary;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;

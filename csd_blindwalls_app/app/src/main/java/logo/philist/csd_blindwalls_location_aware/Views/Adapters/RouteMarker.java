@@ -8,7 +8,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.R;
 
 public class RouteMarker {

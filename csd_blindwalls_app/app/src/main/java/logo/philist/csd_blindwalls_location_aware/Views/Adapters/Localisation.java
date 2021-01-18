@@ -3,10 +3,10 @@ package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 import android.app.Activity;
 import android.location.Location;
 
-import org.osmdroid.util.GeoPoint;
-
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsListener;
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsManager;
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.RotationListener;
 
 public class Localisation {
 

@@ -2,6 +2,10 @@ package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
 import org.junit.Test;
 
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSegment;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSummary;
+
 import static org.junit.Assert.assertEquals;
 
 public class NavigationTest {

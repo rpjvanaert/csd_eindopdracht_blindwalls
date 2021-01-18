@@ -2,6 +2,8 @@ package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
 import org.junit.Test;
 
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationStep;
+
 import static org.junit.Assert.*;
 
 public class NavigationStepTest {

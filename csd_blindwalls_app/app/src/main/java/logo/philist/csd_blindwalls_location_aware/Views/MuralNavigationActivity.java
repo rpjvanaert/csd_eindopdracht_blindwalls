@@ -30,13 +30,12 @@ import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.RouteNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteMarker;
 

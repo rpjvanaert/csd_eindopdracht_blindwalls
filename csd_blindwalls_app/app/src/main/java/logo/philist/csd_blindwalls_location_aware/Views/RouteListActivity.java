@@ -21,6 +21,7 @@ import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.RoutesViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.OnItemClickListener;
 
 public class RouteListActivity extends AppCompatActivity implements OnItemClickListener {
 

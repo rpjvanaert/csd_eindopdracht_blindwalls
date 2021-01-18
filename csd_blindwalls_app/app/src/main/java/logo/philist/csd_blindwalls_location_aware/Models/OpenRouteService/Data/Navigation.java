@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
+package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
 import org.osmdroid.util.GeoPoint;
 

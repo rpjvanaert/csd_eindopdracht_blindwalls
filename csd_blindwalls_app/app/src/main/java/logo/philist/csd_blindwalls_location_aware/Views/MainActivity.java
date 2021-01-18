@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -22,22 +21,15 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.BuildConfig;
-import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
-import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsListener;
-import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsManager;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.DirectionListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Localisation;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.LocalisationListener;
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralMarker;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RotationListener;
 
 public class MainActivity extends AppCompatActivity implements LocalisationListener {
 

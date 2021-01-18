@@ -6,6 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import logo.philist.csd_blindwalls_location_aware.Views.Interfaces.RotationListener;
+
 public class DirectionListener implements SensorEventListener {
 
     private RotationListener rotationListener;
