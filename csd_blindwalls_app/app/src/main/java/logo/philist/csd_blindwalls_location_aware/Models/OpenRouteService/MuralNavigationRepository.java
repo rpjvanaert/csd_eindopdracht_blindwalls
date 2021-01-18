@@ -84,9 +84,8 @@ public class MuralNavigationRepository {
             public void onResponse(Call call, Response response) {
                 executorService.submit(() -> {
                     try {
-                        Log.e(MuralNavigationRepository.class.getName(), response.body().string());
-                        Log.e(MuralNavigationRepository.class.getName(), "Calling getNavigation");
-                        navigationListener.updateNavigation(getNavigation(new JSONObject(response.body().string())));
+                        Navigation navigation = getNavigation(new JSONObject(response.body().string()));
+                        navigationListener.updateNavigation(navigation);
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -210,17 +209,6 @@ public class MuralNavigationRepository {
     }
 
     private static Request getRequest(String profile, GeoPoint start, GeoPoint end) {
-//        Request request = new Request.Builder()
-//                .url(url + s + profile)
-//                .header("api_key", apiKey)
-//                .header("start", start.getLatitude() + "," + start.getLongitude())
-//                .header("end", end.getLatitude() + "," + end.getLongitude())
-//                .build();
-
-
-
-//                    .addQueryParameter("start", start.getLongitude() + "," + start.getLatitude())
-//                    .addQueryParameter("end", end.getLongitude() + "," + end.getLatitude())
         HttpUrl httpUrl = null;
         try {
             httpUrl = HttpUrl.get(new URL(url + s + profile)).newBuilder()
@@ -238,13 +226,6 @@ public class MuralNavigationRepository {
                 .header("Content-Type", "application/json")
                 .post(body)
                 .build();
-
-//        Request request = new Request.Builder()
-//                .url(httpUrl)
-//                .put(body)
-//                .build();
-        System.out.println("------" + httpUrl.toString());
-
         return request;
     }
 
@@ -261,7 +242,6 @@ public class MuralNavigationRepository {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("JSON TEST BODY", object.toString());
         return object.toString();
     }
 }
