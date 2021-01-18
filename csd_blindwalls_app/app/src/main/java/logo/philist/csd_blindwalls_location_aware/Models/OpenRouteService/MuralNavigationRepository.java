@@ -1,6 +1,7 @@
 package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
 import android.app.Application;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,15 +9,24 @@ import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MuralNavigationRepository {
 
@@ -34,11 +44,13 @@ public class MuralNavigationRepository {
     public static final String PROFILE_CYCLING = "/cycling-regular";
     public static final String apiKey = "5b3ce3597851110001cf6248345a40d8741343389fc17da4f5ad70e0";
 
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
     protected MuralNavigationRepository(){
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         this.httpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.SECONDS)
-                .readTimeout(2, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
                 .build();
 
         this.executorService = Executors.newSingleThreadExecutor();
@@ -61,20 +73,20 @@ public class MuralNavigationRepository {
 
     public void requestNavigation(String profile, GeoPoint start, GeoPoint end, NavigationListener navigationListener){
         this.navigationListener = navigationListener;
-        httpClient.newCall(getRequest(profile ,start, end)).enqueue(new Callback() {
+        httpClient.newCall(getRequest(profile ,start, end))
+                .enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                Log.e(MuralNavigationRepository.class.getName(), e.getMessage());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 executorService.submit(() -> {
                     try {
-                        navigationListener.updateNavigation(getNavigation(new JSONObject(response.body().string())));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                        Navigation navigation = getNavigation(new JSONObject(response.body().string()));
+                        navigationListener.updateNavigation(navigation);
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 });
@@ -192,16 +204,44 @@ public class MuralNavigationRepository {
             e.printStackTrace();
         }
 
+        int x = 1 + 1;
         return nav;
     }
 
     private static Request getRequest(String profile, GeoPoint start, GeoPoint end) {
+        HttpUrl httpUrl = null;
+        try {
+            httpUrl = HttpUrl.get(new URL(url + s + profile)).newBuilder()
+                    .build();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(JSON, getJsonCoordinates(new ArrayList<>(Arrays.asList(start, end))));
+
         Request request = new Request.Builder()
-                .url(url + s + profile)
-                .header("api_key", apiKey)
-                .header("start", start.getLatitude() + "," + start.getLongitude())
-                .header("end", end.getLatitude() + "," + end.getLongitude())
+                .url(httpUrl)
+                .header("Authorization", apiKey)
+                .header("Accept", "*/*")
+                .header("Content-Type", "application/json")
+                .post(body)
                 .build();
         return request;
+    }
+
+    private static String getJsonCoordinates(List<GeoPoint> geoPointList){
+        JSONObject object = new JSONObject();
+        try {
+            JSONArray coordinatesArray = new JSONArray();
+            for ( GeoPoint eachCoordinate : geoPointList){
+                coordinatesArray.put(new JSONArray()
+                        .put(eachCoordinate.getLongitude())
+                        .put(eachCoordinate.getLatitude()));
+            }
+            object.put("coordinates", coordinatesArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object.toString();
     }
 }

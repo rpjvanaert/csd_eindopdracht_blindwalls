@@ -1,6 +1,9 @@
 package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
 import android.app.Activity;
+import android.location.Location;
+
+import org.osmdroid.util.GeoPoint;
 
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsListener;
 import logo.philist.csd_blindwalls_location_aware.Models.GPS.GpsManager;
@@ -18,5 +21,9 @@ public class Localisation {
     public void destroy(){
         this.gpsManager.destroy();
         this.directionListener.unregister();
+    }
+
+    public Location getLocation() {
+        return this.gpsManager.getLastKnownLocation();
     }
 }
