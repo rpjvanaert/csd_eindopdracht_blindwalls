@@ -33,12 +33,14 @@ public class NavigationTest {
 
     @Test
     public void getGeometry() {
+        //geo tests
        //navigation.addGeometry(geopoint);
        //assertEquals(geopoint, navigation.getGeometry());
     }
 
     @Test
     public void addGeometry() {
+        //geo tests
         //werkt bij mij niet met GeoPoints geen idee waarom
     }
 }
