@@ -1,28 +1,20 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import org.osmdroid.api.IMapController;
@@ -31,14 +23,17 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
@@ -50,12 +45,14 @@ import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.RouteMa
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardLocation;
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardZoom;
 
-public class MuralNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener {
+public class RouteNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener {
 
-    public static final String TAG = MuralNavigationActivity.class.getName();
+    public static final String TAG = RouteNavigationActivity.class.getName();
     public static final String TAG_MURAL = TAG + "_MURAL";
+    public static final String TAG_ROUTE = TAG + "_ROUTE";
 
-    private Mural mural;
+    private List<Mural> murals;
+    private Route route;
 
     private Map<Integer, Marker> markerMap;
     private MapView mapView;
@@ -80,18 +77,13 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         super.onStart();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
-        return super.onCreateView(name, context, attrs);
-    }
-
     private void init(){
         Intent intent = getIntent();
-        mural = (Mural)intent.getSerializableExtra(TAG_MURAL);
+        murals = (List<Mural>)intent.getSerializableExtra(TAG_MURAL);
+        route = (Route)intent.getSerializableExtra(TAG_ROUTE);
 
         TextView textViewHeader = findViewById(R.id.textView_navigationHeader);
-        String headText = getString(R.string.going_to_mural_to) + mural.getAddress();
+        String headText = getString(R.string.going_to_mural_to) + route.getName();
         textViewHeader.setText(headText);
 
         //Get muralsviewmodel for the main map
@@ -130,11 +122,13 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
 
         //          Routemarker section
 
+        List<GeoPoint> geoPointsMurals = getGeoPoints(murals);
+        geoPointsMurals.add(new GeoPoint(localisation.getLocation()));
         MuralNavigationRepository repos = MuralNavigationRepository.getInstance();
         Log.i(TAG, "requesting navigation");
         repos.requestNavigation(
                 MuralNavigationRepository.PROFILE_WALKING,
-                Arrays.asList(new GeoPoint(localisation.getLocation()), mural.getGeoPoint()),
+                geoPointsMurals,
                 this
         );
 
@@ -143,7 +137,7 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation);
+            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(route.getName(),navigation);
             navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
         });
     }
@@ -154,11 +148,18 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         this.localisation.destroy();
     }
 
+    private List<GeoPoint> getGeoPoints(List<Mural> murals) {
+        List<GeoPoint> geoPoints = new ArrayList<>();
+        for (Mural each : murals){
+            geoPoints.add(each.getGeoPoint());
+        }
+        return geoPoints;
+    }
+
     @Override
     public void onLocationUpdate(Location location) {
         currentLocationMarker.setPosition(new GeoPoint(location));
 
-//        mapController.setCenter(currentLocationMarker.getPosition());
         mapView.invalidate();
     }
 
@@ -172,14 +173,14 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     }
 
     @Override
-    public void setRotation(float rotation) {
-        currentLocationMarker.setRotation(rotation);
-        mapView.invalidate();
-    }
-
-    @Override
     public void updateNavigation(Navigation navigation) {
         routeMarker.setNavigation(navigation);
         this.navigation = navigation;
+    }
+
+    @Override
+    public void setRotation(float rotation) {
+        currentLocationMarker.setRotation(rotation);
+        mapView.invalidate();
     }
 }
