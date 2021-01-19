@@ -1,6 +1,7 @@
 package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
 import org.junit.Test;
+import org.osmdroid.util.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,8 +10,8 @@ public class NavigationTest {
     Navigation navigation = new Navigation();
     NavigationSummary navigationSummary = new NavigationSummary(200, 20);
     NavigationSegment navigationSegment = new NavigationSegment(navigationSummary);
-  //  private List<GeoPoint> geometry;
-  //  GeoPoint geopoint = new GeoPoint();
+    private List<GeoPoint> geometry;
+    GeoPoint geopoint = new GeoPoint();
 
 
     @Test
@@ -33,14 +34,15 @@ public class NavigationTest {
 
     @Test
     public void getGeometry() {
-        //geo tests
-       //navigation.addGeometry(geopoint);
-       //assertEquals(geopoint, navigation.getGeometry());
+        //geo tests twijfel of het zo moet.
+       navigation.addGeometry(geopoint);
+       assertEquals(geopoint, navigation.getGeometry().get(0));
     }
 
     @Test
     public void addGeometry() {
-        //geo tests
-        //werkt bij mij niet met GeoPoints geen idee waarom
+        //geo tests twijfel of het zo moet.
+        navigation.addGeometry(geopoint);
+        assertEquals(geopoint, navigation.getGeometry().get(0));
     }
 }
