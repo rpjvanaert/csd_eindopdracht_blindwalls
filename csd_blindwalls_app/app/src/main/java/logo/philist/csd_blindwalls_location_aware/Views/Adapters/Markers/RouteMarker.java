@@ -43,7 +43,7 @@ public class RouteMarker {
 
         Paint outlinePaint = this.polyline.getOutlinePaint();
         outlinePaint.setColor(this.activity.getColor(R.color.colorSecondaryLight));
-        outlinePaint.setStrokeWidth(10f);
+        outlinePaint.setStrokeWidth(3f);
 
         this.mapView.getOverlayManager().add(this.polyline);
         this.mapView.invalidate();

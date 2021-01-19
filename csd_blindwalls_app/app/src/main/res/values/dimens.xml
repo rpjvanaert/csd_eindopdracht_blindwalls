@@ -17,4 +17,6 @@
     <dimen name="fabIconSize">28dp</dimen>
     <dimen name="standard_route_offset">60dp</dimen>
     <dimen name="standard_murals_offset">125dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
 </resources>
