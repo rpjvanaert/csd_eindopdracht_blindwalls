@@ -3,6 +3,8 @@ package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 import org.junit.Test;
 import org.osmdroid.util.GeoPoint;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class NavigationTest {
@@ -11,7 +13,7 @@ public class NavigationTest {
     NavigationSummary navigationSummary = new NavigationSummary(200, 20);
     NavigationSegment navigationSegment = new NavigationSegment(navigationSummary);
     private List<GeoPoint> geometry;
-    GeoPoint geopoint = new GeoPoint();
+    GeoPoint geopoint = new GeoPoint(2,2);
 
 
     @Test
