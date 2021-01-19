@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.GeoFencing.GeoFenceManager;
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
@@ -67,6 +68,8 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     private RouteMarker routeMarker;
     private Navigation navigation;
 
+    private GeoFenceManager manager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,14 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     private void init(){
         Intent intent = getIntent();
         mural = (Mural)intent.getSerializableExtra(TAG_MURAL);
+
+        manager = GeoFenceManager.getInstance();
+        manager.AddFence(mural, (mural) -> {
+            Log.i(MuralNavigationActivity.class.getName(), "Arrived at mural: " + mural.getId());
+            Intent detailIntent = new Intent(this, MuralDetailActivity.class);
+            detailIntent.putExtra(MuralDetailActivity.TAG, mural);
+            startActivity(detailIntent);
+        });
 
         TextView textViewHeader = findViewById(R.id.textView_navigationHeader);
         String headText = getString(R.string.going_to_mural_to) + mural.getAddress();
@@ -141,13 +152,6 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
 
         ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
 
-//        CardView cardView = findViewById(R.id.routing_bottomSheet_layout);
-
-//        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(cardView);
-//        sheetButton.setOnClickListener((view -> {
-//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//        }));
-
         sheetButton.setOnClickListener(view -> {
             NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation);
             navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
@@ -164,7 +168,6 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     public void onLocationUpdate(Location location) {
         currentLocationMarker.setPosition(new GeoPoint(location));
 
-//        mapController.setCenter(currentLocationMarker.getPosition());
         mapView.invalidate();
     }
 

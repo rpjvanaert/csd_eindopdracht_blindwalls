@@ -26,7 +26,7 @@ import java.util.HashMap;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 
 public class GeoFenceManager extends ContextWrapper implements LocationListener {
-    private static final float GEOFENCE_RADIUS = 25;
+    private static final float GEOFENCE_RADIUS = 100;
     private static GeoFenceManager instance;
     private GeofencingClient geofencingClient;
     private Context context;

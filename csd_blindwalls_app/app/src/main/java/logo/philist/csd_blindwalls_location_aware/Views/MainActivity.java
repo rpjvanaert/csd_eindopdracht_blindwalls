@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.BuildConfig;
+import logo.philist.csd_blindwalls_location_aware.Models.GeoFencing.GeoFenceManager;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GeoFenceManager.createInstance(this);
 
         //Get muralsviewmodel for the main map
         MuralsViewModel muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
