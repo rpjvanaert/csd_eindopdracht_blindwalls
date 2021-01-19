@@ -7,4 +7,6 @@
     <string name="material">"Material: "</string>
     <string name="going_to_mural_to">"Going to mural to "</string>
     <string name="following">Following</string>
+    <string name="location_reached">You have reached a location!</string>
+    <string name="notification_title">Notification from BWallsRoute</string>
 </resources>
