@@ -36,8 +36,6 @@ public class MuralNavigationRepository {
 
     private ExecutorService executorService;
 
-    private NavigationListener navigationListener;
-
     private static MuralNavigationRepository instance;
 
     public static final String url = "https://api.openrouteservice.org";
@@ -69,13 +67,8 @@ public class MuralNavigationRepository {
         return this.httpClient;
     }
 
-    protected ExecutorService getExecutorService(){
-        return this.executorService;
-    }
-
-    public void requestNavigation(String profile, GeoPoint start, GeoPoint end, NavigationListener navigationListener){
-        this.navigationListener = navigationListener;
-        httpClient.newCall(getRequest(profile ,start, end))
+    public void requestNavigation(String profile, List<GeoPoint> geoPoints, NavigationListener navigationListener){
+        httpClient.newCall(getRequest(profile ,geoPoints))
                 .enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -210,7 +203,7 @@ public class MuralNavigationRepository {
         return nav;
     }
 
-    private static Request getRequest(String profile, GeoPoint start, GeoPoint end) {
+    private static Request getRequest(String profile, List<GeoPoint> geoPoints) {
         HttpUrl httpUrl = null;
         try {
             httpUrl = HttpUrl.get(new URL(url + s + profile)).newBuilder()
@@ -219,7 +212,7 @@ public class MuralNavigationRepository {
             e.printStackTrace();
         }
 
-        RequestBody body = RequestBody.create(JSON, getJsonCoordinates(new ArrayList<>(Arrays.asList(start, end))));
+        RequestBody body = RequestBody.create(getJsonCoordinates(geoPoints), JSON);
 
         Request request = new Request.Builder()
                 .url(httpUrl)
