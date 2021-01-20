@@ -55,12 +55,6 @@ public class NavigationInstructionDialog extends BottomSheetDialogFragment {
         RecyclerView navigationList = view.findViewById(R.id.recyclerview_navigation_steps);
         navigationList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-//        List<NavigationStep> steps = new ArrayList<>();
-//        for(NavigationSegment segment : navigation.getSegments()){
-//            steps.addAll(segment.getSteps());
-//            Log.i("Navigation Step of " + title, segment.getSteps().get(0).getInstruction());
-//        }
-
         List<NavigationSheetInfo> sheetInfo = new ArrayList<>();
         for (int indexMural = 0; indexMural < murals.size(); ++indexMural){
             sheetInfo.addAll(navigation.getSegments().get(indexMural).getSheetInfo());

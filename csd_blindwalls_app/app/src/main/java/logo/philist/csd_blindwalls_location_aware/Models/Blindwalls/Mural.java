@@ -104,6 +104,6 @@ public class Mural implements Serializable {
     }
 
     public NavigationSheetInfo getSheetInfo(){
-        return new NavigationSheetInfo(this.address, -1);
+        return new NavigationSheetInfo(this.address, 500);
     }
 }

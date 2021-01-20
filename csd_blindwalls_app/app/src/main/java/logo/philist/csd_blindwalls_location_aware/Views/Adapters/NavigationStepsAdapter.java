@@ -1,5 +1,7 @@
 package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,17 @@ import logo.philist.csd_blindwalls_location_aware.R;
 public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationStepsAdapter.ViewHolder> {
 
     private List<NavigationSheetInfo> sheetInfo;
+    private Context context;
 
     public NavigationStepsAdapter(List<NavigationSheetInfo> sheetInfo) {
         this.sheetInfo = sheetInfo;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
         View itemView = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.nav_step_item, parent, false);
@@ -36,16 +41,17 @@ public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationSteps
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NavigationSheetInfo sheetInfo = this.sheetInfo.get(position);
 
-//        TODO holder.iconView.setImageResource();
+        Log.i(NavigationStepsAdapter.class.getName(), "sheet info: " + sheetInfo.getText() + " @@@ " + sheetInfo.getType());
 
-//        holder.textViewInstructions.setText(step.getText());
-
-        if (sheetInfo.getType() == -1){
-            holder.arriveLayout.setVisibility(View.VISIBLE);
-            holder.textArrive.setText(sheetInfo.getText());
+        holder.textNav.setText(sheetInfo.getText());
+        if (sheetInfo.getType() == 500){
+            holder.navLayout.setBackgroundColor(context.getColor(R.color.colorPrimary));
+            holder.textNav.setTextColor(context.getColor(R.color.colorWhite));
+            holder.iconNav.setImageResource(R.drawable.ic_img);
         } else {
-            holder.navLayout.setVisibility(View.VISIBLE);
-            holder.textNav.setText(sheetInfo.getText());
+            holder.navLayout.setBackgroundColor(context.getColor(R.color.colorWhite));
+            holder.textNav.setTextColor(context.getColor(R.color.colorPrimary));
+//            holder.iconNav.setImageResource();
         }
 
     }
@@ -61,20 +67,12 @@ public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationSteps
         private ImageView iconNav;
         private TextView textNav;
 
-        private CardView arriveLayout;
-        private ImageView iconArrive;
-        private TextView textArrive;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             navLayout = itemView.findViewById(R.id.nav_layout);
-            iconNav = itemView.findViewById(R.id.imageView_navIcon);
+            iconNav = itemView.findViewById(R.id.imageView_navIcon_nav);
             textNav = itemView.findViewById(R.id.textView_instructions_nav);
-
-            arriveLayout = itemView.findViewById(R.id.arrive_layout);
-            iconArrive = itemView.findViewById(R.id.imageView_navIcon_arrive);
-            textArrive = itemView.findViewById(R.id.textView_instructions_arrive);
         }
     }
 }
