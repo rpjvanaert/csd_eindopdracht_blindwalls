@@ -31,6 +31,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -143,7 +144,7 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation);
+            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation, new ArrayList<>(Arrays.asList(mural)));
             navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
         });
     }

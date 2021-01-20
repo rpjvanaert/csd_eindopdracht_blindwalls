@@ -17,20 +17,24 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSegment;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationStep;
 import logo.philist.csd_blindwalls_location_aware.R;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheetInfo;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationStepsAdapter;
 
 public class NavigationInstructionDialog extends BottomSheetDialogFragment {
 
     private Navigation navigation;
+    private List<Mural> murals;
     private String title;
 
-    public NavigationInstructionDialog(String title, Navigation navigation) {
+    public NavigationInstructionDialog(String title, Navigation navigation, List<Mural> murals) {
         super();
         this.title = title;
+        this.murals = murals;
         this.navigation = navigation;
     }
 
@@ -51,13 +55,19 @@ public class NavigationInstructionDialog extends BottomSheetDialogFragment {
         RecyclerView navigationList = view.findViewById(R.id.recyclerview_navigation_steps);
         navigationList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        List<NavigationStep> steps = new ArrayList<>();
-        for(NavigationSegment segment : navigation.getSegments()){
-            steps.addAll(segment.getSteps());
-            Log.i("Navigation Step of " + title, segment.getSteps().get(0).getInstruction());
+//        List<NavigationStep> steps = new ArrayList<>();
+//        for(NavigationSegment segment : navigation.getSegments()){
+//            steps.addAll(segment.getSteps());
+//            Log.i("Navigation Step of " + title, segment.getSteps().get(0).getInstruction());
+//        }
+
+        List<NavigationSheetInfo> sheetInfo = new ArrayList<>();
+        for (int indexMural = 0; indexMural < murals.size(); ++indexMural){
+            sheetInfo.addAll(navigation.getSegments().get(indexMural).getSheetInfo());
+            sheetInfo.add(murals.get(indexMural).getSheetInfo());
         }
 
-        NavigationStepsAdapter navigationStepsAdapter = new NavigationStepsAdapter(steps);
+        NavigationStepsAdapter navigationStepsAdapter = new NavigationStepsAdapter(sheetInfo);
         navigationList.setAdapter(navigationStepsAdapter);
     }
 }

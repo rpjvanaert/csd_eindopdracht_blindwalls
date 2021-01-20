@@ -5,33 +5,97 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/diff_s2">
 
-    <ImageView
-        android:id="@+id/imageView_navIcon"
-
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/diff_s2"
 
-        app:layout_constraintTop_toTopOf="@id/textView_instructions"
-        app:layout_constraintBottom_toBottomOf="@id/textView_instructions"
-        app:layout_constraintStart_toStartOf="parent"
-
-        android:src="@drawable/ic_route"
-        />
-
-    <TextView
-        android:id="@+id/textView_instructions"
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/diff_s2"
-
+        android:id="@+id/nav_layout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView_navIcon"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        >
 
-        android:text="These are simple navigation instructions"
-        android:textSize="@dimen/font_size2"
-        />
+        <ImageView
+            android:id="@+id/imageView_navIcon_nav"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diff_s2"
+
+            app:layout_constraintTop_toTopOf="@id/textView_instructions_nav"
+            app:layout_constraintBottom_toBottomOf="@id/textView_instructions_nav"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:src="@drawable/ic_route"
+            />
+
+        <TextView
+            android:id="@+id/textView_instructions_nav"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diff_s2"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView_navIcon_nav"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:text="These are simple navigation instructions"
+            android:textSize="@dimen/font_size2"
+            />
+
+
+        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_margin="@dimen/diff_s2"
+            android:backgroundTint="@color/colorWhite"
+            android:id="@+id/arrive_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_navIcon_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/diff_s2"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                android:src="@drawable/ic_img"
+                />
+
+            <TextView
+                android:id="@+id/textView_instructions_arrive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/diff_s2"
+
+                app:layout_constraintStart_toEndOf="@id/imageView_navIcon_arrive"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                android:text="HIGHLITED TITLE - ADDRESS"
+                android:textSize="@dimen/font_header2"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

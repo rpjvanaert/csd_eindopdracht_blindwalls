@@ -137,7 +137,7 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
         ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(route.getName(),navigation);
+            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(route.getName(),navigation, route.getMurals(murals));
             navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
         });
     }
