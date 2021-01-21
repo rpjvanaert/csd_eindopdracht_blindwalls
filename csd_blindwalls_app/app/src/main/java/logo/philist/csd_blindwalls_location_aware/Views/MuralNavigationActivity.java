@@ -70,6 +70,7 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     private MuralMarker muralMarker;
     private RouteMarker routeMarker;
     private Navigation navigation;
+    private ExtendedFloatingActionButton sheetButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,12 +145,19 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
 
         this.routeMarker = new RouteMarker(this, mapView);
 
-        ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
+        sheetButton = findViewById(R.id.button_bottomSheetExtend);
+        sheetButton.shrink();
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation, new ArrayList<>(Arrays.asList(mural)));
-            navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
+            if (sheetButton.isExtended()){
+                NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation, new ArrayList<>(Arrays.asList(mural)));
+                navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
+                sheetButton.shrink();
+            } else {
+                sheetButton.extend();
+            }
         });
+
     }
 
     @Override

@@ -87,7 +87,7 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
         route = (Route)intent.getSerializableExtra(TAG_ROUTE);
 
         TextView textViewHeader = findViewById(R.id.textView_navigationHeader);
-        String headText = getString(R.string.going_to_mural_to) + route.getName();
+        String headText = getString(R.string.following) + route.getName();
         textViewHeader.setText(headText);
 
         //Get muralsviewmodel for the main map
@@ -96,8 +96,8 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
         //Init mapview, controller and muralMarker
         this.mapView = findViewById(R.id.nav_mapView);
 
-        this.muralMarker = new MuralMarker(this, mapView);
-        muralsViewModel.getMurals().observe(this, muralMarker);
+        this.muralMarker = new MuralMarker(this, mapView, route.getMurals(muralsViewModel.getMurals().getValue()));
+//        muralsViewModel.getMurals().observe(this, muralMarker);
 
         this.mapController = mapView.getController();
         this.mapController.setZoom(standardZoom);
@@ -141,7 +141,6 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
 
         sheetButton = findViewById(R.id.button_bottomSheetExtend);
         sheetButton.shrink();
-//        sheetButton.setVisibility(View.INVISIBLE);
 
         sheetButton.setOnClickListener(view -> {
             if (sheetButton.isExtended()){
@@ -151,9 +150,6 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
             } else {
                 sheetButton.extend();
             }
-        });
-        this.mapView.setOnClickListener(view -> {
-            sheetButton.shrink();
         });
     }
 
