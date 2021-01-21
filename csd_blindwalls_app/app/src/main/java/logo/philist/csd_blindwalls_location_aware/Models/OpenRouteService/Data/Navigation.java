@@ -9,9 +9,9 @@ public class Navigation {
 
     private NavigationSummary summary;
 
-    private List<NavigationSegment> segments;
+    private final List<NavigationSegment> segments;
 
-    private List<GeoPoint> geometry;
+    private final List<GeoPoint> geometry;
 
     public Navigation(NavigationSummary summary) {
         this.geometry = new ArrayList<>();

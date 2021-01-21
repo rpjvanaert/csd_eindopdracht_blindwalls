@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,13 +27,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import logo.philist.csd_blindwalls_location_aware.BuildConfig;
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.MuralMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MessageDialog;
 
-public class MainActivity extends AppCompatActivity implements LocalisationListener {
+public class MainActivity extends AppCompatActivity implements LocalisationListener, UserNotifier {
 
     public static final String TAG_VIEWMODEL_STORE_OWNER = MainActivity.class.getName() + "_VIEWMODEL_STORE_OWNER";
 
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
 
         //Get muralsviewmodel for the main map
         MuralsViewModel muralsViewModel = new ViewModelProvider(this).get(MuralsViewModel.class);
+        muralsViewModel.refresh(this);
 
         //Init mapview, controller and muralMarker
         this.mapView = findViewById(R.id.main_mapview);
@@ -180,5 +185,11 @@ public class MainActivity extends AppCompatActivity implements LocalisationListe
     public void setRotation(float rotation) {
         currentLocationMarker.setRotation(rotation);
         mapView.invalidate();
+    }
+
+    @Override
+    public void showError(String title, int stringResourceId) {
+        MessageDialog dialog = new MessageDialog(title, getString(stringResourceId));
+        dialog.show(getSupportFragmentManager(), MainActivity.class.getName());
     }
 }

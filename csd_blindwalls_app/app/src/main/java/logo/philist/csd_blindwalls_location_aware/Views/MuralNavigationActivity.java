@@ -31,6 +31,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,17 +41,19 @@ import logo.philist.csd_blindwalls_location_aware.Models.Language;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.MuralMarker;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.RouteMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MessageDialog;
 
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardLocation;
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardZoom;
 
-public class MuralNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener {
+public class MuralNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener, UserNotifier {
 
     public static final String TAG = MuralNavigationActivity.class.getName();
     public static final String TAG_MURAL = TAG + "_MURAL";
@@ -135,6 +138,7 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         repos.requestNavigation(
                 MuralNavigationRepository.PROFILE_WALKING,
                 Arrays.asList(new GeoPoint(localisation.getLocation()), mural.getGeoPoint()),
+                this,
                 this
         );
 
@@ -143,7 +147,7 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
         ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation);
+            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(mural.getTitle(Language.getSystemLanguage()),navigation, new ArrayList<>(Arrays.asList(mural)));
             navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
         });
     }
@@ -181,5 +185,11 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     public void updateNavigation(Navigation navigation) {
         routeMarker.setNavigation(navigation);
         this.navigation = navigation;
+    }
+
+    @Override
+    public void showError(String title, int stringResourceId) {
+        MessageDialog dialog = new MessageDialog(title, getString(stringResourceId));
+        dialog.show(getSupportFragmentManager(), MainActivity.class.getName());
     }
 }

@@ -35,4 +35,8 @@ public class NavigationStep {
     public String getName() {
         return name;
     }
+
+    public NavigationSheetInfo getSheetInfo(){
+        return new NavigationSheetInfo(this.instruction, this.type);
+    }
 }

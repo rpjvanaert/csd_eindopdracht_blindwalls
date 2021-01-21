@@ -7,4 +7,5 @@
     <string name="material">"Materiaal: "</string>
     <string name="going_to_mural_to">"Ga naar muurschildering bij "</string>
     <string name="following">"Volgend "</string>
+    <string name="no_connection_blindwalls_api">Kan niet verbinden met Blindwalls.</string>
 </resources>
