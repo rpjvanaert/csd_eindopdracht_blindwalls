@@ -55,7 +55,7 @@ public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationSteps
             holder.navLayout.setBackgroundColor(context.getColor(R.color.colorWhite));
             holder.textNav.setTextColor(context.getColor(R.color.colorPrimary));
             holder.iconNav.setImageResource(R.drawable.ic_nav);
-            //TODO check type
+            //TODO Opt: check type
         }
 
     }
