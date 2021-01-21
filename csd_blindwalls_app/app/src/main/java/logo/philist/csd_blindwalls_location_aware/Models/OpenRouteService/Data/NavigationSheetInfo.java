@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
+package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
 public class NavigationSheetInfo {
 

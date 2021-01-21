@@ -6,8 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import logo.philist.csd_blindwalls_location_aware.Models.Language;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheetInfo;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSheetInfo;
 
 public class Mural implements Serializable {
 

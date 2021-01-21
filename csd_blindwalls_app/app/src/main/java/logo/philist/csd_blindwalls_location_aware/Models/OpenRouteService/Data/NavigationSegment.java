@@ -3,8 +3,6 @@ package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheetInfo;
-
 public class NavigationSegment {
 
     private final NavigationSummary summary;

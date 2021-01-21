@@ -1,7 +1,5 @@
 package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheetInfo;
-
 public class NavigationStep {
 
     private final double distance;

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSheetInfo;
 import logo.philist.csd_blindwalls_location_aware.R;
 
 public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationStepsAdapter.ViewHolder> {
@@ -46,12 +47,15 @@ public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationSteps
 
         holder.textNav.setText(sheetInfo.getText());
         if (sheetInfo.getType() == Mural.TYPE){
+//            holder.navLayout.setBackgroundColor(context.getColor(R.color.colorPrimary));
             holder.navLayout.setBackgroundColor(context.getColor(R.color.colorPrimary));
             holder.textNav.setTextColor(context.getColor(R.color.colorWhite));
             holder.iconNav.setImageResource(R.drawable.ic_img);
         } else {
             holder.navLayout.setBackgroundColor(context.getColor(R.color.colorWhite));
             holder.textNav.setTextColor(context.getColor(R.color.colorPrimary));
+            holder.iconNav.setImageResource(R.drawable.ic_nav);
+            //TODO check type
         }
 
     }
@@ -63,7 +67,7 @@ public class NavigationStepsAdapter extends RecyclerView.Adapter<NavigationSteps
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout navLayout;
+        private CardView navLayout;
         private ImageView iconNav;
         private TextView textNav;
 

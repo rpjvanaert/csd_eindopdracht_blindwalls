@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:layout_gravity="center_horizontal"
     android:id="@+id/routing_bottomSheet_layout"
-    android:backgroundTint="@color/colorOffWhite"
+    android:background="@color/colorOffWhite"
     app:layout_behavior="@string/bottom_sheet_behavior"
     >
     

@@ -1,7 +1,6 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,8 @@ import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSegment;
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationStep;
 import logo.philist.csd_blindwalls_location_aware.R;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheetInfo;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSheetInfo;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationStepsAdapter;
 
 public class NavigationInstructionDialog extends BottomSheetDialogFragment {
