@@ -11,6 +11,8 @@ import logo.philist.csd_blindwalls_location_aware.Views.Adapters.NavigationSheet
 
 public class Mural implements Serializable {
 
+    public static final int TYPE = -13;
+
     private final int id;
 
     private final GeoPoint geoPoint;
@@ -104,6 +106,6 @@ public class Mural implements Serializable {
     }
 
     public NavigationSheetInfo getSheetInfo(){
-        return new NavigationSheetInfo(this.address, 500);
+        return new NavigationSheetInfo(this.address, TYPE);
     }
 }

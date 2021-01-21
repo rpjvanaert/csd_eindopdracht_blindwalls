@@ -35,17 +35,19 @@ import logo.philist.csd_blindwalls_location_aware.Models.Language;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.MuralNavigationRepository;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.NavigationListener;
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.Localisation;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.LocalisationListener;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.MuralMarker;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers.RouteMarker;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MessageDialog;
 
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardLocation;
 import static logo.philist.csd_blindwalls_location_aware.Views.MainActivity.standardZoom;
 
-public class RouteNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener {
+public class RouteNavigationActivity extends AppCompatActivity implements LocalisationListener, NavigationListener, UserNotifier {
 
     public static final String TAG = RouteNavigationActivity.class.getName();
     public static final String TAG_MURAL = TAG + "_MURAL";
@@ -129,6 +131,7 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
         repos.requestNavigation(
                 MuralNavigationRepository.PROFILE_WALKING,
                 geoPointsMurals,
+                this,
                 this
         );
 
@@ -182,5 +185,11 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
     public void setRotation(float rotation) {
         currentLocationMarker.setRotation(rotation);
         mapView.invalidate();
+    }
+
+    @Override
+    public void showError(String title, int stringResourceId) {
+        MessageDialog dialog = new MessageDialog(title, getString(stringResourceId));
+        dialog.show(getSupportFragmentManager(), MainActivity.class.getName());
     }
 }

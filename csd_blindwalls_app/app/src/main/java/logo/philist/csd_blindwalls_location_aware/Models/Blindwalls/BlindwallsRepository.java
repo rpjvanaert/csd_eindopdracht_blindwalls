@@ -18,6 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
+import logo.philist.csd_blindwalls_location_aware.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -26,45 +28,43 @@ import okhttp3.Response;
 
 public class BlindwallsRepository {
 
+    private static final String PROVIDER_NAME = "Blind Walls Gallery";
     private final MutableLiveData<List<Mural>> murals;
     private final MutableLiveData<List<Route>> routes;
     private final OkHttpClient httpClient;
-
-    private final Application application;
 
     private boolean requestedMurals;
     private boolean requestedRoutes;
 
     private ExecutorService executorService;
 
+    private UserNotifier notifier;
+
     private static BlindwallsRepository instance;
     private static final String headerAccessToken = "X-Access-Token";
-    private static final String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJibGluZHdhbGwiLCJleHAiOjE2MDgxMjMxMzA2MzB9.R5bpThiuXb4M9u8cG5KmARv6M_BTWL4xtAzRFGXkSTM";
-    private static final String blindwallsUrl = "https://api.blindwalls.gallery";
+    private static final String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJibGluZHdhbGwiLCJleHAiOjE2MTEyNDA3NTgyODV9.6CMA6vW_lh6BFqbK1EEY-F2iOltOunlKnbJwD2Mch74";
+    private static final String blindwallsUrl = "http://blindwalls-api.teunluijken.nl";
     private static final String apiHead = "/apiv2";
     private static final String muralUrl = "/murals";
     private static final String routeUrl = "/routes";
 
-    private BlindwallsRepository(Application application){
+    private BlindwallsRepository(){
         this.murals = new MutableLiveData<>();
         this.routes = new MutableLiveData<>();
         this.requestedMurals = false;
         this.requestedRoutes = false;
 
-        this.application = application;
-
         this.httpClient = new OkHttpClient.Builder()
-                .connectTimeout(2, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.SECONDS)
-                .readTimeout(2, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
                 .build();
-
         this.executorService = Executors.newSingleThreadExecutor();
     }
 
     public static synchronized BlindwallsRepository getInstance(Application application){
         if(instance == null){
-            instance = new BlindwallsRepository(application);
+            instance = new BlindwallsRepository();
         }
         return instance;
     }
@@ -77,12 +77,14 @@ public class BlindwallsRepository {
         return this.routes;
     }
 
-    public void requestMurals(){
+    public void requestMurals(UserNotifier notifier){
         if(!requestedMurals){
             httpClient.newCall(getRequest(muralUrl)).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
+//                    Toast.makeText(application.getApplicationContext(), R.string.no_connection_blindwalls_api, Toast.LENGTH_SHORT);
+                    // TODO call toast or something.
+                    notifier.showError(PROVIDER_NAME, R.string.no_connection_blindwalls_api);
                 }
 
                 @Override
@@ -149,12 +151,12 @@ public class BlindwallsRepository {
         return murals;
     }
 
-    public void requestRoutes(){
+    public void requestRoutes(UserNotifier userNotifier){
         if(!requestedRoutes){
             httpClient.newCall(getRequest(routeUrl)).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
+                    userNotifier.showError(PROVIDER_NAME, R.string.no_connection_blindwalls_api);
                 }
 
                 @Override

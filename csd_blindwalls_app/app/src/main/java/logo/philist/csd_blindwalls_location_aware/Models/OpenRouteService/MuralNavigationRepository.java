@@ -1,7 +1,5 @@
 package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +8,6 @@ import org.osmdroid.util.GeoPoint;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,6 +16,8 @@ import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.N
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSegment;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationStep;
 import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSummary;
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
+import logo.philist.csd_blindwalls_location_aware.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -32,6 +30,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MuralNavigationRepository {
 
+    private static final String PROVIDER_NAME = "Open Route Service";
     private final OkHttpClient httpClient;
 
     private ExecutorService executorService;
@@ -67,12 +66,12 @@ public class MuralNavigationRepository {
         return this.httpClient;
     }
 
-    public void requestNavigation(String profile, List<GeoPoint> geoPoints, NavigationListener navigationListener){
+    public void requestNavigation(String profile, List<GeoPoint> geoPoints, NavigationListener navigationListener, UserNotifier userNotifier){
         httpClient.newCall(getRequest(profile ,geoPoints))
                 .enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(MuralNavigationRepository.class.getName(), e.getMessage());
+                userNotifier.showError(PROVIDER_NAME, R.string.no_connection_ors_api);
             }
 
             @Override
