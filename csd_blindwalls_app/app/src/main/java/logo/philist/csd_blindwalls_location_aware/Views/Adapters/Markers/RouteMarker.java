@@ -1,21 +1,22 @@
-package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
+package logo.philist.csd_blindwalls_location_aware.Views.Adapters.Markers;
 
 import android.app.Activity;
 import android.graphics.Paint;
+import android.util.Log;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 
-import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Navigation;
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.Navigation;
 import logo.philist.csd_blindwalls_location_aware.R;
 
 public class RouteMarker {
 
     private Navigation navigation;
     private Polyline polyline;
-    private MapView mapView;
-    private Activity activity;
+    private final MapView mapView;
+    private final Activity activity;
 
     public RouteMarker(Activity activity, Navigation navigation, MapView mapView) {
         this.activity = activity;
@@ -49,6 +50,7 @@ public class RouteMarker {
     }
 
     public void setNavigation(Navigation navigation) {
+        Log.e(RouteMarker.class.getName(), "Setting navigation");
         this.navigation = navigation;
         this.drawRoute();
     }

@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
+package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
 public class NavigationStep {
 
@@ -34,5 +34,9 @@ public class NavigationStep {
 
     public String getName() {
         return name;
+    }
+
+    public NavigationSheetInfo getSheetInfo(){
+        return new NavigationSheetInfo(this.instruction, this.type);
     }
 }

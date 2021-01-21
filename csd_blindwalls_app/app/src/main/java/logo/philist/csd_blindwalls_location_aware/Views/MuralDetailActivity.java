@@ -1,18 +1,20 @@
 package logo.philist.csd_blindwalls_location_aware.Views;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.R;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralImageListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.MuralImageListAdapter;
 
 public class MuralDetailActivity extends Activity {
     public static final String TAG = MuralDetailActivity.class.getName();
@@ -28,6 +30,8 @@ public class MuralDetailActivity extends Activity {
     private MaterialTextView mTextViewAuthor;
 
     private RecyclerView recyclerViewMuralImages;
+
+    private ExtendedFloatingActionButton eFabNavigate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +50,9 @@ public class MuralDetailActivity extends Activity {
 
         recyclerViewMuralImages = findViewById(R.id.recyclerview_muralImages);
 
+        eFabNavigate = findViewById(R.id.fab_nav);
+
+
         int lang = Language.getSystemLanguage();
         mTextViewName.setText(mural.getTitle(lang));
         mTextViewAddress.setText(mural.getAddress());
@@ -58,5 +65,10 @@ public class MuralDetailActivity extends Activity {
         recyclerViewMuralImages.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewMuralImages.setAdapter(new MuralImageListAdapter(this, mural.getImages()));
 
+        eFabNavigate.setOnClickListener(view -> {
+            Intent intentNavigate = new Intent(this, MuralNavigationActivity.class);
+            intentNavigate.putExtra(MuralNavigationActivity.TAG_MURAL, mural);
+            startActivity(intentNavigate);
+        });
     }
 }

@@ -163,12 +163,12 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/diff_s3"
+        android:layout_margin="@dimen/diff_s4"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        android:backgroundTint="@color/colorSecondary"
+        android:backgroundTint="@color/colorPrimary"
         app:icon="@drawable/ic_nav"
         app:iconTint="@color/colorWhite"
         app:iconSize="@dimen/font_header1"

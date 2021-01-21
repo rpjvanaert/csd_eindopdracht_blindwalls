@@ -10,16 +10,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.OnItemClickListener;
 
-public class RouteDetailActivity extends AppCompatActivity implements OnItemClickListener{
+public class RouteDetailActivity extends AppCompatActivity implements OnItemClickListener {
 
     public static final String TAG = RouteDetailActivity.class.getName();
     public static final String TAG_ROUTE = TAG + "_ROUTE";
@@ -57,6 +60,13 @@ public class RouteDetailActivity extends AppCompatActivity implements OnItemClic
         recyclerViewMurals.setAdapter(muralListAdapter);
         murals.observe((LifecycleOwner) RouteDetailActivity.this, muralListAdapter);
 
+        ExtendedFloatingActionButton floatingActionButton = findViewById(R.id.fab_nav);
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intentNavigate = new Intent(this, RouteNavigationActivity.class);
+            intentNavigate.putExtra(RouteNavigationActivity.TAG_ROUTE, route);
+            intentNavigate.putExtra(RouteNavigationActivity.TAG_MURAL, (Serializable) murals.getValue());
+            startActivity(intentNavigate);
+        });
     }
 
     @Override

@@ -18,11 +18,14 @@ import java.util.List;
 
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
+import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.RoutesViewModel;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MessageDialog;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.RouteListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.OnItemClickListener;
 
-public class RouteListActivity extends AppCompatActivity implements OnItemClickListener {
+public class RouteListActivity extends AppCompatActivity implements OnItemClickListener, UserNotifier {
 
     private LiveData<List<Route>> routes;
     private LiveData<List<Mural>> murals;
@@ -36,6 +39,7 @@ public class RouteListActivity extends AppCompatActivity implements OnItemClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         RoutesViewModel routesViewModel = new ViewModelProvider((ViewModelStoreOwner)RouteListActivity.this).get(RoutesViewModel.class);
+        routesViewModel.refresh(this);
 
         routes = routesViewModel.getRoutes();
         murals = routesViewModel.getMurals();
@@ -52,5 +56,11 @@ public class RouteListActivity extends AppCompatActivity implements OnItemClickL
         detailIntent.putExtra(RouteDetailActivity.TAG_ROUTE, routes.getValue().get(clickedPosition));
         detailIntent.putExtra(RouteDetailActivity.TAG_MURALS, (Serializable) routes.getValue().get(clickedPosition).getMurals(murals.getValue()));
         startActivity(detailIntent);
+    }
+
+    @Override
+    public void showError(String title, int stringResourceId) {
+        MessageDialog dialog = new MessageDialog(title, getString(stringResourceId));
+        dialog.show(getSupportFragmentManager(), MainActivity.class.getName());
     }
 }

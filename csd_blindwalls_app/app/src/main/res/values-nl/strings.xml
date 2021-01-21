@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="visiting_options_header">Bezoekmogelijkheden</string>
-    <string name="go_to_murals">Ga naar muurschilderingen</string>
+    <string name="go_to_murals">Ga naar mural</string>
     <string name="go_to_routes">Ga naar routes</string>
     <string name="category">"Categorie: "</string>
     <string name="material">"Materiaal: "</string>
+    <string name="going_to_mural_to">Ga naar mural</string>
+    <string name="following">"Volgend "</string>
+    <string name="no_connection_blindwalls_api">Kan niet verbinden met Blindwalls.</string>
+    <string name="no_connection_ors_api">Kan niet verbinden met Open Route Service</string>
 </resources>

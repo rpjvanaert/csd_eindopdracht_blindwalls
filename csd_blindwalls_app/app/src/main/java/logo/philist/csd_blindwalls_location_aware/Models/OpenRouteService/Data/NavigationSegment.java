@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
+package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +23,14 @@ public class NavigationSegment {
 
     public List<NavigationStep> getSteps() {
         return steps;
+    }
+
+    public List<NavigationSheetInfo> getSheetInfo() {
+        List<NavigationSheetInfo> sheetInfo = new ArrayList<>();
+
+        for (NavigationStep step : this.steps){
+            sheetInfo.add(step.getSheetInfo());
+        }
+        return sheetInfo;
     }
 }

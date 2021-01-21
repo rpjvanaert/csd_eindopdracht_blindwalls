@@ -18,6 +18,7 @@ import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.R;
 import logo.philist.csd_blindwalls_location_aware.ViewModels.Blindwalls.MuralsViewModel;
 import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.OnItemClickListener;
 
 
 public class MuralsListActivity extends AppCompatActivity implements OnItemClickListener {

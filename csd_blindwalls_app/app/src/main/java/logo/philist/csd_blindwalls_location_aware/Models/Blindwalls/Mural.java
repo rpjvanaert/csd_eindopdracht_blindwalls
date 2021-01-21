@@ -6,7 +6,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data.NavigationSheetInfo;
+
 public class Mural implements Serializable {
+
+    public static final int TYPE = -13;
 
     private final int id;
 
@@ -98,5 +102,9 @@ public class Mural implements Serializable {
 
     public double getRating() {
         return rating;
+    }
+
+    public NavigationSheetInfo getSheetInfo(){
+        return new NavigationSheetInfo(this.address, TYPE);
     }
 }

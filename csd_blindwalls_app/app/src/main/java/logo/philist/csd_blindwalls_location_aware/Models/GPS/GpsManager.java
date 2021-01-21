@@ -24,7 +24,6 @@ public class GpsManager implements LocationListener {
     private Location lastKnownLocation;
 
     public GpsManager(Activity activity, GpsListener listener) {
-        this.lastKnownLocation = lastKnownLocation;
         if (activity == null) {
             throw new IllegalArgumentException("Context is not allowed to be null");
         }
@@ -33,6 +32,8 @@ public class GpsManager implements LocationListener {
 
 
         this.listener = listener;
+
+
 
         if(ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
@@ -45,6 +46,7 @@ public class GpsManager implements LocationListener {
         for (String provider : this.locationManager.getProviders(true)) {
             try {
                 this.locationManager.requestLocationUpdates(provider, 0, 0, this);
+                this.lastKnownLocation = locationManager.getLastKnownLocation(provider);
             }
             catch (Exception ex) {
                 Log.e("GPSManager", "Unable to request location updates for provider " + provider, ex);

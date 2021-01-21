@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService;
+package logo.philist.csd_blindwalls_location_aware.Models.OpenRouteService.Data;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -9,9 +9,9 @@ public class Navigation {
 
     private NavigationSummary summary;
 
-    private List<NavigationSegment> segments;
+    private final List<NavigationSegment> segments;
 
-    private List<GeoPoint> geometry;
+    private final List<GeoPoint> geometry;
 
     public Navigation(NavigationSummary summary) {
         this.geometry = new ArrayList<>();
