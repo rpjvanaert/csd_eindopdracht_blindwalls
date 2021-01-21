@@ -51,15 +51,18 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/diff_s2"
+        android:layout_margin="@dimen/diff_s4"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:icon="@drawable/moreinfo_arrow"
-        app:iconSize="12dp"
+        app:icon="@drawable/ic_route"
+        app:iconSize="@dimen/diff_s4"
         app:iconTint="@color/colorWhite"
+
+        android:text="Instructions"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size2"
 
         android:backgroundTint="@color/colorPrimary"
         />

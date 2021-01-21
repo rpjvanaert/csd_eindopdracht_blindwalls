@@ -12,6 +12,7 @@
     <dimen name="diff_s1">6dp</dimen>
     <dimen name="diff_s2">10dp</dimen>
     <dimen name="diff_s3">12dp</dimen>
+    <dimen name="diff_s4">20dp</dimen>
 
     <dimen name="cardviewSizeOption">250dp</dimen>
     <dimen name="fabIconSize">28dp</dimen>

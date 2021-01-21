@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
     private MuralMarker muralMarker;
     private RouteMarker routeMarker;
     private Navigation navigation;
+    private ExtendedFloatingActionButton sheetButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,11 +139,21 @@ public class RouteNavigationActivity extends AppCompatActivity implements Locali
 
         this.routeMarker = new RouteMarker(this, mapView);
 
-        ExtendedFloatingActionButton sheetButton = findViewById(R.id.button_bottomSheetExtend);
+        sheetButton = findViewById(R.id.button_bottomSheetExtend);
+        sheetButton.shrink();
+//        sheetButton.setVisibility(View.INVISIBLE);
 
         sheetButton.setOnClickListener(view -> {
-            NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(route.getName(),navigation, route.getMurals(murals));
-            navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
+            if (sheetButton.isExtended()){
+                NavigationInstructionDialog navigationInstructionDialog = new NavigationInstructionDialog(route.getName(),navigation, route.getMurals(murals));
+                navigationInstructionDialog.show(getSupportFragmentManager(), "ModalBottomSheet");
+                sheetButton.shrink();
+            } else {
+                sheetButton.extend();
+            }
+        });
+        this.mapView.setOnClickListener(view -> {
+            sheetButton.shrink();
         });
     }
 
