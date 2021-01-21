@@ -12,6 +12,7 @@ import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.BlindwallsRe
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Route;
 import logo.philist.csd_blindwalls_location_aware.Models.UserNotifier;
+import logo.philist.csd_blindwalls_location_aware.Views.RouteListActivity;
 
 public class RoutesViewModel extends AndroidViewModel {
 

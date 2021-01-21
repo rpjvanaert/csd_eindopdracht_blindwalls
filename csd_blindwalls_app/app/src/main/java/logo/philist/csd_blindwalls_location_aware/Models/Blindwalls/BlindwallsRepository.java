@@ -38,8 +38,6 @@ public class BlindwallsRepository {
 
     private ExecutorService executorService;
 
-    private UserNotifier notifier;
-
     private static BlindwallsRepository instance;
     private static final String headerAccessToken = "X-Access-Token";
     private static final String accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJibGluZHdhbGwiLCJleHAiOjE2MTEyNDA3NTgyODV9.6CMA6vW_lh6BFqbK1EEY-F2iOltOunlKnbJwD2Mch74";
@@ -82,8 +80,6 @@ public class BlindwallsRepository {
             httpClient.newCall(getRequest(muralUrl)).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-//                    Toast.makeText(application.getApplicationContext(), R.string.no_connection_blindwalls_api, Toast.LENGTH_SHORT);
-                    // TODO call toast or something.
                     notifier.showError(PROVIDER_NAME, R.string.no_connection_blindwalls_api);
                 }
 
