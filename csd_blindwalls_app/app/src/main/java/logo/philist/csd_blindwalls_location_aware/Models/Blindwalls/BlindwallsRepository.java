@@ -138,7 +138,7 @@ public class BlindwallsRepository {
             List<String> imageList = new ArrayList<>();
             for (int j = 0; j < images.length(); j++) {
                 JSONObject imageObject = images.getJSONObject(j);
-                imageList.add(blindwallsUrl + "/" + imageObject.getString("url").toLowerCase());
+                imageList.add("http://blindwalls.boomkop.com/" + imageObject.getString("url").toLowerCase());
             }
             mural.setImages(imageList);
 
