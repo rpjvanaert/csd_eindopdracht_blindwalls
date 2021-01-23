@@ -1,4 +1,4 @@
-package logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication;
+package logo.philist.csd_blindwalls_location_aware.Views.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

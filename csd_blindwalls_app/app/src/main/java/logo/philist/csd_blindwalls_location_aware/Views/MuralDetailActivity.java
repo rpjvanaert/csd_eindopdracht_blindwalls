@@ -14,7 +14,7 @@ import com.google.android.material.textview.MaterialTextView;
 import logo.philist.csd_blindwalls_location_aware.Models.Language;
 import logo.philist.csd_blindwalls_location_aware.Models.Blindwalls.Mural;
 import logo.philist.csd_blindwalls_location_aware.R;
-import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MapIndication.MuralImageListAdapter;
+import logo.philist.csd_blindwalls_location_aware.Views.Adapters.MuralImageListAdapter;
 
 public class MuralDetailActivity extends Activity {
     public static final String TAG = MuralDetailActivity.class.getName();

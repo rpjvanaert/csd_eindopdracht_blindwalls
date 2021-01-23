@@ -169,8 +169,6 @@ public class MuralNavigationActivity extends AppCompatActivity implements Locali
     @Override
     public void onLocationUpdate(Location location) {
         currentLocationMarker.setPosition(new GeoPoint(location));
-
-//        mapController.setCenter(currentLocationMarker.getPosition());
         mapView.invalidate();
     }
 
